@@ -1,0 +1,46 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: position-database-postgres
+  namespace: baseball
+  labels:
+    app: position-database-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: position-database-postgres
+  template:
+    metadata:
+      labels:
+        app: position-database-postgres
+    spec:
+      containers:
+      - name: position-database-postgres
+        image: postgres:12-alpine
+        volumeMounts:
+        - name: position-database-data-volume
+          mountPath: "/var/lib/postgresql/data"
+        ports:
+        - name: db
+          containerPort: 5432
+        env:
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: position-postgres-secret
+              key: dbname
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: position-postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: position-postgres-secret
+              key: password
+      volumes:
+      - name: position-database-data-volume
+        persistentVolumeClaim:
+          claimName: position-database-data-claim

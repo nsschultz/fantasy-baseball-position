@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: position-database
+  namespace: baseball
+  labels:
+    app: position-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: position-database
+  template:
+    metadata:
+      labels:
+        app: position-database
+    spec:
+      containers:
+      - name: position-database
+        image: nschultz/fantasy-baseball-position-database:{{version}}
+        ports:
+          - name: web
+            containerPort: 8080
+        env:
+        - name: position-database-user
+          valueFrom:
+            secretKeyRef:
+              name: position-postgres-secret
+              key: username
+        - name: position-database-password
+          valueFrom:
+            secretKeyRef:
+              name: position-postgres-secret
+              key: password
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 5
