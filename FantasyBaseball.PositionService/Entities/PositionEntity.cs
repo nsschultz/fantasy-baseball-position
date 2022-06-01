@@ -19,6 +19,9 @@ namespace FantasyBaseball.PositionService.Entities
         public int SortOrder { get; set; }
 
         /// <summary>Additional positions that this position is eligible for.</summary>
-        public List<ChildPositionEntity> ChildPositions { get; set; } = new List<ChildPositionEntity>();
+        public List<AdditionalPositionEntity> ChildPositions { get; set; } = new List<AdditionalPositionEntity>();
+
+        /// <summary>Additional positions that this position is eligible for.</summary>
+        public List<AdditionalPositionEntity> ParentPositions { get; set; } = new List<AdditionalPositionEntity>();
     }
 }

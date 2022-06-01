@@ -2,11 +2,11 @@ using Xunit;
 
 namespace FantasyBaseball.PositionService.Entities.UnitTests
 {
-    public class ChildPositionEntityTest
+    public class AdditionalPositionEntityTest
     {
         [Fact] public void DefaultsSetTest()
         {
-            var obj = new ChildPositionEntity();
+            var obj = new AdditionalPositionEntity();
             Assert.Null(obj.ChildCode);
             Assert.Null(obj.ParentCode);
             Assert.Null(obj.ChildPosition);

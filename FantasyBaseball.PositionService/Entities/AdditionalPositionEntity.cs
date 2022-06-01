@@ -1,7 +1,7 @@
 namespace FantasyBaseball.PositionService.Entities
 {
     /// <summary>Additional positions that the parent position is eligible for.</summary>
-    public class ChildPositionEntity
+    public class AdditionalPositionEntity
     {
         /// <summary>The parent's position code.</summary>
         public string ParentCode { get; set; }

@@ -10,7 +10,7 @@
 ### Dev Container
 * Command for starting container:
 ```
-docker run --rm -it --workdir /app -v $(pwd):/app nschultz/fantasy-baseball-common:1.0.3 bash
+docker run --rm -it --workdir /app -v $(pwd):/app nschultz/fantasy-baseball-common:2.0.0 bash
 ```
 * Commands for installing VS Code extensions (from within container):
 ```
