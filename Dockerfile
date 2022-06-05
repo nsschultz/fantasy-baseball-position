@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:experimental
-FROM nschultz/fantasy-baseball-common:2.0.0 AS build
+FROM nschultz/fantasy-baseball-common:2.0.1 AS build
 COPY . /app
 ARG VERSION
 ENV MAIN_PROJ=FantasyBaseball.PositionService \

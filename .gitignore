@@ -6,5 +6,9 @@ bak/
 data/
 libs/
 reports/
-# vs code files
-.vscode/
+# scanning data
+.sonarqube/
+coverage-hits/
+out/
+coverage.json
+opencovercoverage.xml

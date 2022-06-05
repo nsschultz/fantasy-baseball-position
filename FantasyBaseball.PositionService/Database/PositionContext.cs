@@ -1,47 +1,26 @@
-using System.Threading.Tasks;
 using FantasyBaseball.Common.Enums;
 using FantasyBaseball.PositionService.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FantasyBaseball.PositionService.Database
 {
     /// <summary>The context object for players and their related entities.</summary>
-    public class PlayerContext : DbContext, IPositionContext
+    public class PositionContext : DbContext, IPositionContext
     {
-        private IDbContextTransaction _transaction;
-
         /// <summary>
         ///     Initializes a new instance of the Microsoft.EntityFrameworkCore.DbContext class using the specified options. 
         ///     The Microsoft.EntityFrameworkCore.DbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)
         ///     method will still be called to allow further configuration of the options.
         /// </summary>
         /// <param name="options">The options for this context.</param>
-        public PlayerContext(DbContextOptions<PlayerContext> options) : base(options) { }
+        public PositionContext(DbContextOptions<PositionContext> options) : base(options) { }
 
         /// <summary>A collection of child positions.</summary>
         public DbSet<AdditionalPositionEntity> AdditionalPositions { get; set; }
 
         /// <summary>A collection of positions.</summary>
         public DbSet<PositionEntity> Positions { get; set; }
- 
-        /// <summary>Starts a new database transaction.</summary>
-        public async Task BeginTransaction() => _transaction = await Database.BeginTransactionAsync();
-        
-        /// <summary>Commits the database transaction.</summary>
-        public async Task Commit()
-        {
-            try { await SaveAndCommit(); }
-            finally { await _transaction.DisposeAsync(); }        
-        }
-
-        /// <summary>Rolls the database transaction back.</summary>
-        public async Task Rollback()
-        { 
-            await _transaction.RollbackAsync();
-            await _transaction.DisposeAsync();
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -118,12 +97,6 @@ namespace FantasyBaseball.PositionService.Database
                 new PositionEntity { Code = "RP"  , FullName = "Relief Pitcher"   , PlayerType = PlayerType.P, SortOrder = 101          },
                 new PositionEntity { Code = "P"   , FullName = "Pitcher"          , PlayerType = PlayerType.P, SortOrder = 102          }
             );
-        }
-
-        private async Task SaveAndCommit()
-        {
-            await SaveChangesAsync();
-            await _transaction.CommitAsync();
         }
     }
 }
