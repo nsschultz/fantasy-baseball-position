@@ -25,6 +25,7 @@ pipeline {
                 kubectl apply -f ./_deploy/position-postgres-service.yaml
                 kubectl apply -f ./_deploy/position-deployment.yaml
                 kubectl apply -f ./_deploy/position-service.yaml
+                kubectl apply -f ./_deploy/position-ingress.yaml
             """ } }
         }
     }
