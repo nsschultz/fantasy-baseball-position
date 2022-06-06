@@ -23,7 +23,10 @@ spec:
             containerPort: 8080
         env:
         - name: POSITION_DATABASE
-          value: "position-database"
+          valueFrom:
+            secretKeyRef:
+              name: position-postgres-secret
+              key: dbname
         - name: POSITION_DATABASE_HOST
           value: "position-database-postgres"
         - name: POSITION_DATABASE_PASSWORD
