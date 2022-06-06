@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  api:
+    build: ../
+    restart: always
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - POSITION_DATABASE=position-database
+      - POSITION_DATABASE_HOST=database
+      - POSITION_DATABASE_PASSWORD=postgres
+      - POSITION_DATABASE_USER=postgres
+    ports:
+      - '8080:8080'
+  database:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=position-database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

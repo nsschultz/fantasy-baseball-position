@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: position-database
+  namespace: baseball
+spec:
+  selector:
+    app: position-database
+  ports:
+  - port: 8080
+    targetPort: 8080
+    name: position-database

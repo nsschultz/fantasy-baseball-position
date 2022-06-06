@@ -1,0 +1,74 @@
+{
+  "version": "2.0.0",
+  "options": {
+    "env": {
+      "MAIN_PROJ": "FantasyBaseball.PositionService",
+      "SONAR_KEY": "fantasy-baseball-position",
+      "VERSION": "1.0.0"
+    }
+ },
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["build"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-and-scan",
+      "command": "sh",
+      "type": "process",
+      "args": ["/scripts/build.sh"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "create-migration",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "ef", 
+        "migrations", 
+        "add", 
+        "${input:migrationName}", 
+        "--project", 
+        "FantasyBaseball.PositionService/FantasyBaseball.PositionService.csproj",
+        "-o",
+        "Migrations"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "restore",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["restore"],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "run",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "run",
+        "--project",
+        "${workspaceFolder}/FantasyBaseball.PositionService/FantasyBaseball.PositionService.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "test",
+      "command": "dotnet",
+      "type": "process",
+      "args": ["test"],
+      "problemMatcher": "$msCompile"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "migrationName",
+      "description": "Name of the Migration",
+      "type": "promptString"
+    }
+  ]
+}
