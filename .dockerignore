@@ -1,9 +1,19 @@
+# compiled code
 **/bin
 **/obj
-/_deploy
+# files not needed for build
+_deploy/
+.vscode/
+compose/
 .dockerignore
 .gitignore
 Dockerfile
 Jenkinsfile
 LICENSE
 README.md
+# scanning data
+.sonarqube/
+coverage-hits/
+out/
+coverage.json
+opencovercoverage.xml
