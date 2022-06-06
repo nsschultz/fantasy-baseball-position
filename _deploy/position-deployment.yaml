@@ -1,23 +1,23 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: position-database
+  name: position
   namespace: baseball
   labels:
-    app: position-database
+    app: position
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: position-database
+      app: position
   template:
     metadata:
       labels:
-        app: position-database
+        app: position
     spec:
       containers:
-      - name: position-database
-        image: nschultz/fantasy-baseball-position-database:{{version}}
+      - name: position
+        image: nschultz/fantasy-baseball-position:{{version}}
         ports:
           - name: web
             containerPort: 8080
