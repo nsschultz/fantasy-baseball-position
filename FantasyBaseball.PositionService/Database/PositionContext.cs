@@ -74,7 +74,7 @@ namespace FantasyBaseball.PositionService.Database
         private static void BuildPositionModel(EntityTypeBuilder<PositionEntity> builder)  
         {
             builder.HasKey(b => b.Code).HasName("Position_PK");
-            builder.Property(b => b.Code).HasMaxLength(3);
+            builder.Property(b => b.Code).HasMaxLength(4);
             builder.Property(b => b.FullName).HasMaxLength(20);
             builder.HasIndex(b => b.SortOrder).IsUnique();
             builder.HasData(

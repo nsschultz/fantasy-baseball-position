@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  api:
+    image: nschultz/fantasy-baseball-common:2.0.2
+    restart: always
+    command: sleep infinity
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - POSITION_DATABASE=position-database
+      - POSITION_DATABASE_HOST=database
+      - POSITION_DATABASE_PASSWORD=postgres
+      - POSITION_DATABASE_USER=postgres
+    ports:
+      - '8080:8080'
+    volumes:
+      - ../:/app/
+  database:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=position-database
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

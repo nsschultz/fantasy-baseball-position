@@ -57,8 +57,12 @@ namespace FantasyBaseball.PositionService
         /// <param name="services">Specifies the contract for a collection of service descriptors.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = string.Format(Configuration.GetConnectionString("PositionDatabase"), 
-                Configuration["position-database-user"], Configuration["position-database-password"]);
+            var connectionString = string.Format(
+                Configuration.GetConnectionString("PositionDatabase"), 
+                Configuration["POSITION_DATABASE_HOST"], 
+                Configuration["POSITION_DATABASE"],
+                Configuration["POSITION_DATABASE_USER"], 
+                Configuration["POSITION_DATABASE_PASSWORD"]);
             services.AddHealthChecks().AddDbContextCheck<PositionContext>();
             services
                 .AddCors(options => options.AddDefaultPolicy(builder => builder

@@ -23,6 +23,22 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "create-migration",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "ef", 
+        "migrations", 
+        "add", 
+        "${input:migrationName}", 
+        "--project", 
+        "FantasyBaseball.PositionService/FantasyBaseball.PositionService.csproj",
+        "-o",
+        "Migrations"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "restore",
       "command": "dotnet",
       "type": "process",
@@ -46,6 +62,13 @@
       "type": "process",
       "args": ["test"],
       "problemMatcher": "$msCompile"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "migrationName",
+      "description": "Name of the Migration",
+      "type": "promptString"
     }
   ]
 }

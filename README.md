@@ -8,13 +8,22 @@
 
 ---
 ### Dev Container
-* Command for starting container:
+* Command for starting/stopping dev container:
 ```
-docker run --rm -it --workdir /app -v $(pwd):/app nschultz/fantasy-baseball-common:2.0.1 bash
+docker compose -f compose/docker-compose-dev.yaml up
+docker compose -f compose/docker-compose-dev.yaml down
 ```
 * Extensions are in the extensions.json file and should prompt to install on start
 * Tasks are setup in tasks.json.
-* View Swagger/Test Endpoints: http://localhost:5000/api/v1/position/swagger/index.html
+
+---
+### Runtime Container
+* Command for starting/stopping runtime container:
+```
+docker compose -f compose/docker-compose-runtime.yaml up
+docker compose -f compose/docker-compose-runtime.yaml down
+```
+* View Swagger/Test Endpoints: http://localhost:8080/api/v1/position/swagger/index.html
 
 ---
 ### Build Image
