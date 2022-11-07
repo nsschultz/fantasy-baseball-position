@@ -11,15 +11,15 @@ namespace FantasyBaseball.PositionService.Services
         /// <param name="position">The database values.</param>
         /// <returns>A BaseballPosition based off the database values.</returns>
         public BaseballPosition BuildBaseballPosition(PositionEntity position) =>
-            position == null 
-                ? new BaseballPosition() 
-                : new BaseballPosition 
-                    {   
-                        Code = position.Code,
-                        FullName = position.FullName,
-                        PlayerType = position.PlayerType,
-                        SortOrder = position.SortOrder,
-                        AddtionalPositions = position.ParentPositions.Select(p => BuildBaseballPosition(p.ChildPosition)).ToList()
-                    };
+            position == null
+                ? new BaseballPosition()
+                : new BaseballPosition
+                {
+                    Code = position.Code,
+                    FullName = position.FullName,
+                    PlayerType = position.PlayerType,
+                    SortOrder = position.SortOrder,
+                    AddtionalPositions = position.ParentPositions.Select(p => BuildBaseballPosition(p.ChildPosition)).ToList()
+                };
     }
 }

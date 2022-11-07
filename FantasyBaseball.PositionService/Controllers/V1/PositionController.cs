@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace FantasyBaseball.PositionService.Controllers.V1
 {
     /// <summary>Endpoint for retrieving position data.</summary>
-    [Route("api/v1/position")] [ApiController] public class PositionController : ControllerBase
+    [Route("api/v1/position")]
+    [ApiController]
+    public class PositionController : ControllerBase
     {
         private readonly IBaseballPositionBuilderService _positionBuilder;
         private readonly IGetPositionsService _getService;
@@ -20,16 +22,13 @@ namespace FantasyBaseball.PositionService.Controllers.V1
         /// <param name="sortService">The service for sorting the positions.</param>
         public PositionController(IBaseballPositionBuilderService positionBuilder,
                                   IGetPositionsService getService,
-                                  ISortService sortService) 
-        { 
-            _positionBuilder = positionBuilder;
-            _getService = getService;
-            _sortService = sortService;
-        }
+                                  ISortService sortService) =>
+            (_positionBuilder, _getService, _sortService) = (positionBuilder, getService, sortService);
 
         /// <summary>Gets all of the positions from the source.</summary>
         /// <returns>All of the positions from the source.</returns>
-        [HttpGet] public async Task<List<BaseballPosition>> GetPositions()
+        [HttpGet]
+        public async Task<List<BaseballPosition>> GetPositions()
         {
             var positions = await _getService.GetPositions();
             var baseballPositions = positions.Select(position => _positionBuilder.BuildBaseballPosition(position)).ToList();

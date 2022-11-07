@@ -9,7 +9,8 @@ namespace FantasyBaseball.PositionService.Controllers.V1.UnitTests
 {
     public class PositionControllerTest
     {
-        [Fact] public async void GetPositionsTest()
+        [Fact]
+        public async void GetPositionsTest()
         {
             var getService = new Mock<IGetPositionsService>();
             getService.Setup(o => o.GetPositions()).ReturnsAsync(new List<PositionEntity> { new PositionEntity() });
@@ -19,5 +20,5 @@ namespace FantasyBaseball.PositionService.Controllers.V1.UnitTests
             sortService.Setup(o => o.SortPositions(It.IsAny<List<BaseballPosition>>())).Returns((List<BaseballPosition> Positions) => Positions);
             Assert.NotEmpty((await new PositionController(builderService.Object, getService.Object, sortService.Object).GetPositions()));
         }
-     }
+    }
 }

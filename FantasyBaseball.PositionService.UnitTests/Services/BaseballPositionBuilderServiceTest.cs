@@ -9,17 +9,17 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
 {
     public class BaseballPositionBuilderServiceTest
     {
-        private static List<PositionEntity> DatabasePositions = new List<PositionEntity> 
+        private static List<PositionEntity> DatabasePositions = new List<PositionEntity>
             {
-                new PositionEntity 
-                { 
-                    Code = "SP", 
+                new PositionEntity
+                {
+                    Code = "SP",
                     FullName = "Starting Pitcher",
                     PlayerType = PlayerType.P,
                     SortOrder = 100,
                     ParentPositions = new List<AdditionalPositionEntity>
                     {
-                        new AdditionalPositionEntity 
+                        new AdditionalPositionEntity
                         {
                             ParentCode = "SP",
                             ChildCode = "P",
@@ -28,15 +28,15 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
                         }
                     }
                 },
-                new PositionEntity 
-                { 
-                    Code = "RP", 
+                new PositionEntity
+                {
+                    Code = "RP",
                     FullName = "Relief Pitcher",
                     PlayerType = PlayerType.P,
                     SortOrder = 101,
                     ParentPositions = new List<AdditionalPositionEntity>
                     {
-                        new AdditionalPositionEntity 
+                        new AdditionalPositionEntity
                         {
                             ParentCode = "RP",
                             ChildCode = "P",
@@ -45,22 +45,22 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
                         }
                     }
                 },
-                new PositionEntity 
-                { 
-                    Code = "P", 
+                new PositionEntity
+                {
+                    Code = "P",
                     FullName = "Pitcher",
                     PlayerType = PlayerType.P,
                     SortOrder = 102,
                     ChildPositions = new List<AdditionalPositionEntity>
                     {
-                        new AdditionalPositionEntity 
+                        new AdditionalPositionEntity
                         {
                             ParentCode = "SP",
                             ChildCode = "P",
                             ParentPosition = new PositionEntity { Code = "SP", FullName = "Starting Pitcher", PlayerType = PlayerType.P, SortOrder = 100 },
                             ChildPosition = new PositionEntity { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
                         },
-                        new AdditionalPositionEntity 
+                        new AdditionalPositionEntity
                         {
                             ParentCode = "RP",
                             ChildCode = "P",
@@ -71,11 +71,11 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
                 }
             };
 
-        private static List<BaseballPosition> ExpectedPositions = new List<BaseballPosition> 
+        private static List<BaseballPosition> ExpectedPositions = new List<BaseballPosition>
             {
-                new BaseballPosition 
-                { 
-                    Code = "SP", 
+                new BaseballPosition
+                {
+                    Code = "SP",
                     FullName = "Starting Pitcher",
                     PlayerType = PlayerType.P,
                     SortOrder = 100,
@@ -84,9 +84,9 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
                         new BaseballPosition { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
                     }
                 },
-                new BaseballPosition 
-                { 
-                    Code = "RP", 
+                new BaseballPosition
+                {
+                    Code = "RP",
                     FullName = "Relief Pitcher",
                     PlayerType = PlayerType.P,
                     SortOrder = 101,
@@ -95,9 +95,9 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
                         new BaseballPosition { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
                     }
                 },
-                new BaseballPosition 
-                { 
-                    Code = "P", 
+                new BaseballPosition
+                {
+                    Code = "P",
                     FullName = "Pitcher",
                     PlayerType = PlayerType.P,
                     SortOrder = 102
@@ -109,7 +109,7 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
         [Fact]
         public void BuildBaseballPositionValidTest()
         {
-            ExpectedPositions.ForEach(expected => 
+            ExpectedPositions.ForEach(expected =>
                 {
                     var databasePosition = DatabasePositions.First(dp => dp.Code == expected.Code);
                     var actual = new BaseballPositionBuilderService().BuildBaseballPosition(databasePosition);

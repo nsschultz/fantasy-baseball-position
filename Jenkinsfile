@@ -16,7 +16,7 @@ pipeline {
         stage('build and publish release') { 
             steps { script { sh  """
                 #!/bin/bash
-                docker build -t nschultz/fantasy-baseball-database:${IMAGE_VERSION} --build-arg VERSION=${VERSION_NUMBER} .
+                docker build -t nschultz/fantasy-baseball-position:${IMAGE_VERSION} .
                 docker login -u ${DOCKER_HUB_USR} -p ${DOCKER_HUB_PSW}
                 docker push nschultz/fantasy-baseball-position:${IMAGE_VERSION}
                 docker logout

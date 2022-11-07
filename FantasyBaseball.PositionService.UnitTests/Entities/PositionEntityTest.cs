@@ -5,7 +5,8 @@ namespace FantasyBaseball.PositionService.Entities.UnitTests
 {
     public class PositionEntityTest
     {
-        [Fact] public void DefaultsSetTest()
+        [Fact]
+        public void DefaultsSetTest()
         {
             var obj = new PositionEntity();
             Assert.Null(obj.Code);
