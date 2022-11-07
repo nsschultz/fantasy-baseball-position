@@ -3,10 +3,12 @@
   "options": {
     "env": {
       "MAIN_PROJ": "FantasyBaseball.PositionService",
+      "SONAR_CODE_EXCLUSIONS": "Migrations/*.cs",
+      "SONAR_COVERGE_EXCLUSIONS": "Migrations/*.cs",
       "SONAR_KEY": "fantasy-baseball-position",
-      "VERSION": "1.0.0"
+      "SONAR_URL": "http://sonarqube.schultz.local/"
     }
- },
+  },
   "tasks": [
     {
       "label": "build",
@@ -27,11 +29,11 @@
       "command": "dotnet",
       "type": "process",
       "args": [
-        "ef", 
-        "migrations", 
-        "add", 
-        "${input:migrationName}", 
-        "--project", 
+        "ef",
+        "migrations",
+        "add",
+        "${input:migrationName}",
+        "--project",
         "FantasyBaseball.PositionService/FantasyBaseball.PositionService.csproj",
         "-o",
         "Migrations"
