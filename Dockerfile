@@ -1,10 +1,7 @@
-# syntax=docker/dockerfile:experimental
-FROM nschultz/fantasy-baseball-common:2.0.2 AS build
+# syntax=docker/dockerfile:1
+FROM nschultz/fantasy-baseball-common:2.0.6 AS build
 COPY . /app
-ARG VERSION
-ENV MAIN_PROJ=FantasyBaseball.PositionService \
-    SONAR_KEY=fantasy-baseball-position
-RUN /scripts/build.sh
+RUN dotnet publish -c Release -o /app/out -v minimal
 
 FROM nschultz/base-csharp-runner:6.0.0
 COPY --from=build /app/out ./

@@ -16,31 +16,31 @@ spec:
         app: position-database-postgres
     spec:
       containers:
-      - name: position-database-postgres
-        image: postgres:12-alpine
-        volumeMounts:
-        - name: position-database-data-volume
-          mountPath: "/var/lib/postgresql/data"
-        ports:
-        - name: db
-          containerPort: 5432
-        env:
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: position-postgres-secret
-              key: dbname
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: position-postgres-secret
-              key: username
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: position-postgres-secret
-              key: password
+        - name: position-database-postgres
+          image: postgres:14.1-alpine
+          volumeMounts:
+            - name: position-database-data-volume
+              mountPath: "/var/lib/postgresql/data"
+          ports:
+            - name: db
+              containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: position-postgres-secret
+                  key: dbname
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: position-postgres-secret
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: position-postgres-secret
+                  key: password
       volumes:
-      - name: position-database-data-volume
-        persistentVolumeClaim:
-          claimName: position-database-data-claim
+        - name: position-database-data-volume
+          persistentVolumeClaim:
+            claimName: position-database-data-claim

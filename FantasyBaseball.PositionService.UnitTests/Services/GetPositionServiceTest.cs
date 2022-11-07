@@ -83,11 +83,12 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
 
         public GetPositionServiceTest() => _context = CreateContext().Result;
 
-        [Fact] public async void GetPositionsTest()
+        [Fact]
+        public async void GetPositionsTest()
         {
             var positions = await new GetPositionsService(_context).GetPositions();
             Assert.Equal(18, positions.Count);
-            positions.ForEach(position => 
+            positions.ForEach(position =>
             {
                 var expected = ExpectedCollection[position.Code];
                 Assert.Equal(expected.Code, position.Code);
