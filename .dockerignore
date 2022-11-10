@@ -4,6 +4,7 @@
 # files not needed for build
 _deploy/
 _dev/
+.git/
 .vscode/
 .dockerignore
 .gitignore
