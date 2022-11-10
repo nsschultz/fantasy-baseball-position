@@ -17,7 +17,7 @@ services:
       - SONAR_COVERGE_EXCLUSIONS=Migrations/*.cs
       - SONAR_KEY=fantasy-baseball-position
       - SONAR_URL=http://sonarqube.schultz.local/
-      - VERSION=${app_version}
+      - VERSION=${VERSION_NUMBER}
     ports:
       - "8080:8080"
     volumes:

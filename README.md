@@ -50,7 +50,5 @@ docker compose -f _dev/docker-compose-runtime.yaml -p fantasy-baseball-positiond
   - View Swagger/Test Endpoints: http://localhost:8080/api/v1/position/swagger/index.html
 - PG Admin
   - GUI: http://localhost:9000
-  - Register a new connection and use `database` as the Host Name
-  - Credentials found in compose file
 - Postgres Database
   - Available at database:5432 (not outside of the containers)
