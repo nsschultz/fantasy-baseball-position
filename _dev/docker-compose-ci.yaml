@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   api:
-    image: nschultz/fantasy-baseball-common:2.0.6
+    image: nschultz/fantasy-baseball-common:2.1.0
     command: sh /scripts/build.sh
     depends_on:
       database:

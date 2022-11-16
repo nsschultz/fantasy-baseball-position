@@ -7,6 +7,17 @@
     <ProjectReference Include="..\FantasyBaseball.PositionService\FantasyBaseball.PositionService.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FantasyBaseball.Common.Enums">
+      <HintPath>..\..\libs\FantasyBaseball.Common.Enums.dll</HintPath>
+    </Reference>
+    <Reference Include="FantasyBaseball.Common.Exceptions">
+      <HintPath>..\..\libs\FantasyBaseball.Common.Exceptions.dll</HintPath>
+    </Reference>
+    <Reference Include="FantasyBaseball.Common.Models">
+      <HintPath>..\..\libs\FantasyBaseball.Common.Models.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="3.2.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

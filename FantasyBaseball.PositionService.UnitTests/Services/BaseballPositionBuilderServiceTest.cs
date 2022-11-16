@@ -9,113 +9,100 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
 {
     public class BaseballPositionBuilderServiceTest
     {
-        private static List<PositionEntity> DatabasePositions = new List<PositionEntity>
+        private static readonly PositionEntity DB_1B = new PositionEntity
+        {
+            Code = "1B",
+            FullName = "First Baseman",
+            PlayerType = PlayerType.B,
+            SortOrder = 1
+        };
+        private static readonly PositionEntity DB_CIF = new PositionEntity
+        {
+            Code = "CIF",
+            FullName = "Corner Infielder",
+            PlayerType = PlayerType.B,
+            SortOrder = 5
+        };
+        private static readonly PositionEntity DB_IF = new PositionEntity
+        {
+            Code = "IF",
+            FullName = "Infielder",
+            PlayerType = PlayerType.B,
+            SortOrder = 7
+        };
+        private static readonly PositionEntity DB_UTIL = new PositionEntity
+        {
+            Code = "UTIL",
+            FullName = "Utility",
+            PlayerType = PlayerType.B,
+            SortOrder = 13
+        };
+        private static List<PositionEntity> DatabasePositions = new List<PositionEntity> { DB_1B, DB_CIF, DB_IF, DB_UTIL };
+        private static readonly List<BaseballPosition> ExpectedPositions = new List<BaseballPosition>
+        {
+            new BaseballPosition
             {
-                new PositionEntity
+                Code = "1B",
+                FullName = "First Baseman",
+                PlayerType = PlayerType.B,
+                SortOrder = 1,
+                AdditionalPositions = new List<BaseballPosition>
                 {
-                    Code = "SP",
-                    FullName = "Starting Pitcher",
-                    PlayerType = PlayerType.P,
-                    SortOrder = 100,
-                    ParentPositions = new List<AdditionalPositionEntity>
-                    {
-                        new AdditionalPositionEntity
-                        {
-                            ParentCode = "SP",
-                            ChildCode = "P",
-                            ParentPosition = new PositionEntity { Code = "SP", FullName = "Starting Pitcher", PlayerType = PlayerType.P, SortOrder = 100 },
-                            ChildPosition = new PositionEntity { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
-                        }
-                    }
-                },
-                new PositionEntity
-                {
-                    Code = "RP",
-                    FullName = "Relief Pitcher",
-                    PlayerType = PlayerType.P,
-                    SortOrder = 101,
-                    ParentPositions = new List<AdditionalPositionEntity>
-                    {
-                        new AdditionalPositionEntity
-                        {
-                            ParentCode = "RP",
-                            ChildCode = "P",
-                            ParentPosition = new PositionEntity { Code = "RP", FullName = "Relief Pitcher", PlayerType = PlayerType.P, SortOrder = 101 },
-                            ChildPosition = new PositionEntity { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
-                        }
-                    }
-                },
-                new PositionEntity
-                {
-                    Code = "P",
-                    FullName = "Pitcher",
-                    PlayerType = PlayerType.P,
-                    SortOrder = 102,
-                    ChildPositions = new List<AdditionalPositionEntity>
-                    {
-                        new AdditionalPositionEntity
-                        {
-                            ParentCode = "SP",
-                            ChildCode = "P",
-                            ParentPosition = new PositionEntity { Code = "SP", FullName = "Starting Pitcher", PlayerType = PlayerType.P, SortOrder = 100 },
-                            ChildPosition = new PositionEntity { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
-                        },
-                        new AdditionalPositionEntity
-                        {
-                            ParentCode = "RP",
-                            ChildCode = "P",
-                            ParentPosition = new PositionEntity { Code = "RP", FullName = "Relief Pitcher", PlayerType = PlayerType.P, SortOrder = 101 },
-                            ChildPosition = new PositionEntity { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
-                        }
-                    }
+                    new BaseballPosition { Code = "CIF", FullName = "Corner Infielder", PlayerType = PlayerType.B, SortOrder = 5 },
+                    new BaseballPosition { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
+                    new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
                 }
-            };
-
-        private static List<BaseballPosition> ExpectedPositions = new List<BaseballPosition>
+            },
+            new BaseballPosition
             {
-                new BaseballPosition
+                Code = "CIF",
+                FullName = "Corner Infielder",
+                PlayerType = PlayerType.B,
+                SortOrder = 5,
+                AdditionalPositions = new List<BaseballPosition>
                 {
-                    Code = "SP",
-                    FullName = "Starting Pitcher",
-                    PlayerType = PlayerType.P,
-                    SortOrder = 100,
-                    AddtionalPositions = new List<BaseballPosition>
-                    {
-                        new BaseballPosition { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
-                    }
-                },
-                new BaseballPosition
-                {
-                    Code = "RP",
-                    FullName = "Relief Pitcher",
-                    PlayerType = PlayerType.P,
-                    SortOrder = 101,
-                    AddtionalPositions = new List<BaseballPosition>
-                    {
-                        new BaseballPosition { Code = "P", FullName = "Pitcher", PlayerType = PlayerType.P, SortOrder = 102 }
-                    }
-                },
-                new BaseballPosition
-                {
-                    Code = "P",
-                    FullName = "Pitcher",
-                    PlayerType = PlayerType.P,
-                    SortOrder = 102
+                    new BaseballPosition { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
+                    new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
                 }
-            };
+            },
+            new BaseballPosition
+            {
+                Code = "IF",
+                FullName = "Infielder",
+                PlayerType = PlayerType.B,
+                SortOrder = 7,
+                AdditionalPositions = new List<BaseballPosition>
+                {
+                    new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
+                }
+            },
+            new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
+        };
 
         [Fact] public void BuildBaseballPositionNullTest() => Assert.Equal(0, new BaseballPositionBuilderService().BuildBaseballPosition(null).SortOrder);
 
         [Fact]
         public void BuildBaseballPositionValidTest()
         {
+            AddRelationship(DB_1B, DB_CIF);
+            AddRelationship(DB_1B, DB_IF);
+            AddRelationship(DB_1B, DB_UTIL);
+            AddRelationship(DB_CIF, DB_IF);
+            AddRelationship(DB_CIF, DB_UTIL);
+            AddRelationship(DB_IF, DB_UTIL);
             ExpectedPositions.ForEach(expected =>
-                {
-                    var databasePosition = DatabasePositions.First(dp => dp.Code == expected.Code);
-                    var actual = new BaseballPositionBuilderService().BuildBaseballPosition(databasePosition);
-                    ValidatePosition(expected, actual);
-                }
-            );
+            {
+                var databasePosition = DatabasePositions.First(dp => dp.Code == expected.Code);
+                var actual = new BaseballPositionBuilderService().BuildBaseballPosition(databasePosition);
+                ValidatePosition(expected, actual);
+            });
+        }
+
+        private static void AddRelationship(PositionEntity parent, PositionEntity child)
+        {
+            var relationship = new AdditionalPositionEntity { ParentCode = parent.Code, ChildCode = child.Code, ParentPosition = parent, ChildPosition = child };
+            parent.ParentPositions.Add(relationship);
+            child.ChildPositions.Add(relationship);
         }
 
         private static void ValidatePosition(BaseballPosition expected, BaseballPosition actual)
@@ -124,7 +111,8 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
             Assert.Equal(expected.FullName, actual.FullName);
             Assert.Equal(expected.PlayerType, actual.PlayerType);
             Assert.Equal(expected.SortOrder, actual.SortOrder);
-            if (expected.AddtionalPositions.Count > 0) ValidatePosition(expected.AddtionalPositions.First(), actual.AddtionalPositions.First());
+            Assert.Equal(expected.AdditionalPositions.Count, actual.AdditionalPositions.Count);
+            expected.AdditionalPositions.ForEach(e => ValidatePosition(e, actual.AdditionalPositions.First(dp => dp.Code == e.Code)));
         }
     }
 }
