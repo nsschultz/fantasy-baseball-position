@@ -2,21 +2,24 @@ using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-public class HttpClientFixture : IDisposable
+namespace FantasyBaseball.PositionService.IntegrationTests
 {
-    private WebApplicationFactory<Program> _application;
-
-    public HttpClientFixture()
+    public class HttpClientFixture : IDisposable
     {
-        _application = new WebApplicationFactory<Program>();
-        Client = _application.CreateClient();
-    }
+        private WebApplicationFactory<Program> _application;
 
-    public HttpClient Client { get; private set; }
+        public HttpClientFixture()
+        {
+            _application = new WebApplicationFactory<Program>();
+            Client = _application.CreateClient();
+        }
 
-    public void Dispose()
-    {
-        Client.Dispose();
-        _application.Dispose();
+        public HttpClient Client { get; private set; }
+
+        public void Dispose()
+        {
+            Client.Dispose();
+            _application.Dispose();
+        }
     }
 }
