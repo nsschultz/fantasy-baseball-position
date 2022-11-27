@@ -28,7 +28,7 @@ spec:
                   name: position-postgres-secret
                   key: dbname
             - name: POSITION_DATABASE_HOST
-              value: "position-database-postgres"
+              value: "position-database"
             - name: POSITION_DATABASE_PASSWORD
               valueFrom:
                 secretKeyRef:

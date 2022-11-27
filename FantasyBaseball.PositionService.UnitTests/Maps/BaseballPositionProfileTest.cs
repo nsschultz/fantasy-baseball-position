@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using FantasyBaseball.Common.Enums;
-using FantasyBaseball.Common.Models;
-using FantasyBaseball.PositionService.Entities;
+using AutoMapper;
+using FantasyBaseball.PositionService.Database.Entities;
+using FantasyBaseball.PositionService.Models;
+using FantasyBaseball.PositionService.Models.Enums;
 using Xunit;
 
-namespace FantasyBaseball.PositionService.Services.UnitTests
+namespace FantasyBaseball.PositionService.Maps.UnitTests
 {
-    public class BaseballPositionBuilderServiceTest
+    public class BaseballPositionProfileTest
     {
         private static readonly PositionEntity DB_1B = new PositionEntity
         {
@@ -78,8 +79,11 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
             },
             new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
         };
+        private IMapper _mapper;
 
-        [Fact] public void BuildBaseballPositionNullTest() => Assert.Equal(0, new BaseballPositionBuilderService().BuildBaseballPosition(null).SortOrder);
+        public BaseballPositionProfileTest() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile())).CreateMapper();
+
+        [Fact] public void BuildBaseballPositionNullTest() => Assert.Null(_mapper.Map<BaseballPosition>(null));
 
         [Fact]
         public void BuildBaseballPositionValidTest()
@@ -93,7 +97,7 @@ namespace FantasyBaseball.PositionService.Services.UnitTests
             ExpectedPositions.ForEach(expected =>
             {
                 var databasePosition = DatabasePositions.First(dp => dp.Code == expected.Code);
-                var actual = new BaseballPositionBuilderService().BuildBaseballPosition(databasePosition);
+                var actual = _mapper.Map<BaseballPosition>(databasePosition);
                 ValidatePosition(expected, actual);
             });
         }

@@ -1,4 +1,4 @@
-namespace FantasyBaseball.PositionService.Entities
+namespace FantasyBaseball.PositionService.Database.Entities
 {
     /// <summary>Additional positions that the parent position is eligible for.</summary>
     public class AdditionalPositionEntity

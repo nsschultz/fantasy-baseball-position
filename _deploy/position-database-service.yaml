@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: position-database-postgres
+  name: position-database
   namespace: baseball
 spec:
   selector:
-    app: position-database-postgres
+    app: position-database
   ports:
     - port: 5432
       targetPort: 5432
-      name: position-database-postgres
+      name: position-database

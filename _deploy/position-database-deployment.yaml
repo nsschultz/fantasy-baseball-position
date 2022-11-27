@@ -1,22 +1,22 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: position-database-postgres
+  name: position-database
   namespace: baseball
   labels:
-    app: position-database-postgres
+    app: position-database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: position-database-postgres
+      app: position-database
   template:
     metadata:
       labels:
-        app: position-database-postgres
+        app: position-database
     spec:
       containers:
-        - name: position-database-postgres
+        - name: position-database
           image: postgres:14.1-alpine
           volumeMounts:
             - name: position-database-data-volume

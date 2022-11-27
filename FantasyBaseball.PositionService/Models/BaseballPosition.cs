@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using FantasyBaseball.Common.Enums;
+using FantasyBaseball.PositionService.Models.Enums;
 
-namespace FantasyBaseball.PositionService.Entities
+namespace FantasyBaseball.PositionService.Models
 {
-    /// <summary>Info for a given position.</summary>
-    public class PositionEntity
+    /// <summary>All of the information that makes up a baseball position.</summary>
+    public class BaseballPosition
     {
         /// <summary>The position's code.</summary>
         public string Code { get; set; }
@@ -19,9 +19,6 @@ namespace FantasyBaseball.PositionService.Entities
         public int SortOrder { get; set; }
 
         /// <summary>Additional positions that this position is eligible for.</summary>
-        public List<AdditionalPositionEntity> ChildPositions { get; set; } = new List<AdditionalPositionEntity>();
-
-        /// <summary>Additional positions that this position is eligible for.</summary>
-        public List<AdditionalPositionEntity> ParentPositions { get; set; } = new List<AdditionalPositionEntity>();
+        public List<BaseballPosition> AdditionalPositions { get; set; } = new List<BaseballPosition>();
     }
 }

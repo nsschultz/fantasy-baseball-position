@@ -1,7 +1,10 @@
 version: "3.8"
 services:
   api:
-    image: nschultz/fantasy-baseball-common:2.1.0
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      target: dev
     restart: always
     command: sleep infinity
     environment:
