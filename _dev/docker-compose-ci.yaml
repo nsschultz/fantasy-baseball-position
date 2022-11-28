@@ -5,7 +5,7 @@ services:
       context: ../
       dockerfile: Dockerfile
       target: dev
-    command: sh /scripts/build.sh
+    command: sh /app/_dev/scripts/build.sh
     depends_on:
       database:
         condition: service_healthy
