@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FantasyBaseball.PositionService.Migrations
+namespace FantasyBaseball.PositionService.Database.Migrations
 {
     public partial class InitialCreate : Migration
     {

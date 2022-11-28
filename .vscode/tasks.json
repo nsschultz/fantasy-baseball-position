@@ -2,10 +2,6 @@
   "version": "2.0.0",
   "options": {
     "env": {
-      "MAIN_PROJ": "FantasyBaseball.PositionService",
-      "SONAR_CODE_EXCLUSIONS": "Migrations/*.cs",
-      "SONAR_COVERGE_EXCLUSIONS": "Migrations/*.cs",
-      "SONAR_KEY": "fantasy-baseball-position",
       "SONAR_URL": "http://sonarqube.schultz.local/"
     }
   },
@@ -21,7 +17,7 @@
       "label": "build-and-scan",
       "command": "sh",
       "type": "process",
-      "args": ["/scripts/build.sh"],
+      "args": ["_dev/scripts/build.sh"],
       "problemMatcher": "$msCompile"
     },
     {
@@ -36,7 +32,7 @@
         "--project",
         "FantasyBaseball.PositionService/FantasyBaseball.PositionService.csproj",
         "-o",
-        "Migrations"
+        "Database/Migrations"
       ],
       "problemMatcher": "$msCompile"
     },

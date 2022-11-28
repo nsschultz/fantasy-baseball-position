@@ -28,8 +28,8 @@ pipeline {
             steps { script { sh """
                 #!/bin/bash
                 sed -i "s/{{version}}/${VERSION_NUMBER}/g" ./_deploy/position-deployment.yaml
-                kubectl apply -f ./_deploy/position-postgres-deployment.yaml
-                kubectl apply -f ./_deploy/position-postgres-service.yaml
+                kubectl apply -f ./_deploy/position-database-deployment.yaml
+                kubectl apply -f ./_deploy/position-database-service.yaml
                 kubectl apply -f ./_deploy/position-deployment.yaml
                 kubectl apply -f ./_deploy/position-service.yaml
                 kubectl apply -f ./_deploy/position-ingress.yaml

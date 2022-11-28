@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace FantasyBaseball.PositionService.Entities.UnitTests
+namespace FantasyBaseball.PositionService.Database.Entities.UnitTests
 {
     public class AdditionalPositionEntityTest
     {

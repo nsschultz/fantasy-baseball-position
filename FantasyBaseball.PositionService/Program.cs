@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using FantasyBaseball.PositionService.Database;
+using FantasyBaseball.PositionService.Database.Repositories;
 using FantasyBaseball.PositionService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -45,13 +46,18 @@ var connectionString = string.Format(
 builder.Services.AddDbContext<PositionContext>(options => options.UseNpgsql(connectionString));
 // Setup HealthChecks
 builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
+// Setup Automapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Setup DI
 builder.Services
+    // Config
     .AddSingleton(builder.Configuration)
+    // Context
     .AddScoped<IPositionContext>(provider => provider.GetService<PositionContext>())
-    .AddSingleton<IBaseballPositionBuilderService, BaseballPositionBuilderService>()
-    .AddScoped<IGetPositionsService, GetPositionsService>()
-    .AddSingleton<ISortService, SortService>();
+    // Repos
+    .AddScoped<IPositionRepository, PositionRepository>()
+    // Services
+    .AddScoped<IGetPositionsService, GetPositionsService>();
 // Setup Swagger
 builder.Services.AddSwaggerGen(o =>
 {

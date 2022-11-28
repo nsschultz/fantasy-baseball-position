@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FantasyBaseball.PositionService.Entities;
+using FantasyBaseball.PositionService.Models;
 
 namespace FantasyBaseball.PositionService.Services
 {
@@ -9,6 +9,6 @@ namespace FantasyBaseball.PositionService.Services
     {
         /// <summary>Gets the positions from the underlying source.</summary>
         /// <returns>A list of the positions.</returns>
-        Task<List<PositionEntity>> GetPositions();
+        Task<List<BaseballPosition>> GetPositions();
     }
 }

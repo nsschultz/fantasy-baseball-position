@@ -1,5 +1,5 @@
-using FantasyBaseball.Common.Enums;
-using FantasyBaseball.PositionService.Entities;
+using FantasyBaseball.PositionService.Database.Entities;
+using FantasyBaseball.PositionService.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

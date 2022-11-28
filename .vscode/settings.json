@@ -3,7 +3,12 @@
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
   },
+  "[html]": {
+    "editor.defaultFormatter": null
+  },
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
-  "editor.tabSize": 4
+  "editor.tabSize": 4,
+  "omnisharp.enableEditorConfigSupport": true,
+  "omnisharp.organizeImportsOnFormat": true
 }

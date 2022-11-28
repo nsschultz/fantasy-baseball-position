@@ -1,4 +1,4 @@
-using FantasyBaseball.PositionService.Entities;
+using FantasyBaseball.PositionService.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace FantasyBaseball.PositionService.Database
