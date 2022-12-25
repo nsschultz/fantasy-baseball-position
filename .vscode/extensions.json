@@ -1,7 +1,3 @@
 {
-  "recommendations": [
-    "fudge.auto-using",
-    "ms-dotnettools.csharp",
-    "esbenp.prettier-vscode"
-  ]
+  "recommendations": ["fudge.auto-using", "ms-dotnettools.csharp", "esbenp.prettier-vscode"]
 }

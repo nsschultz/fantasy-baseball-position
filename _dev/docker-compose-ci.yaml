@@ -21,8 +21,6 @@ services:
       - SONAR_KEY=fantasy-baseball-position
       - SONAR_URL=http://sonarqube.schultz.local/
       - VERSION=${VERSION_NUMBER}
-    ports:
-      - "8080:8080"
     volumes:
       - ../:/app/
   database:
