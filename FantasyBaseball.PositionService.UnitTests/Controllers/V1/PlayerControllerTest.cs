@@ -6,14 +6,14 @@ using Xunit;
 
 namespace FantasyBaseball.PositionService.Controllers.V1.UnitTests
 {
-    public class PositionControllerTest
+  public class PositionControllerTest
+  {
+    [Fact]
+    public async void GetPositionsTest()
     {
-        [Fact]
-        public async void GetPositionsTest()
-        {
-            var getService = new Mock<IGetPositionsService>();
-            getService.Setup(o => o.GetPositions()).ReturnsAsync(new List<BaseballPosition> { new BaseballPosition() });
-            Assert.NotEmpty((await new PositionController(getService.Object).GetPositions()));
-        }
+      var getService = new Mock<IGetPositionsService>();
+      getService.Setup(o => o.GetPositions()).ReturnsAsync(new List<BaseballPosition> { new BaseballPosition() });
+      Assert.NotEmpty((await new PositionController(getService.Object).GetPositions()));
     }
+  }
 }

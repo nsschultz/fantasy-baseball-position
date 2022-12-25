@@ -39,7 +39,7 @@ export app_version=$(cat version.txt) && docker compose -f _dev/docker-compose-d
 
 ```
 docker compose -f _dev/docker-compose-runtime.yaml -p fantasy-baseball-position up --build -d
-docker compose -f _dev/docker-compose-runtime.yaml -p fantasy-baseball-positiondown
+docker compose -f _dev/docker-compose-runtime.yaml -p fantasy-baseball-position down
 ```
 
 ---

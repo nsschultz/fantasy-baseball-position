@@ -23,26 +23,26 @@ builder.Configuration.AddEnvironmentVariables();
 // Setup Cors
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(
-        name: BaseballSpecificOrigins,
-        policy =>
-        {
-            policy.SetIsOriginAllowed(o =>
-            {
-                var host = new Uri(o).Host;
-                return host == "localhost" || host.Contains("schultz.local");
-            });
-            policy.AllowAnyHeader();
-            policy.AllowAnyMethod();
-        });
+  options.AddPolicy(
+    name: BaseballSpecificOrigins,
+    policy =>
+    {
+      policy.SetIsOriginAllowed(o =>
+      {
+        var host = new Uri(o).Host;
+        return host == "localhost" || host.Contains("schultz.local");
+      });
+      policy.AllowAnyHeader();
+      policy.AllowAnyMethod();
+    });
 });
 // Setup Database
 var connectionString = string.Format(
-    builder.Configuration.GetConnectionString("PositionDatabase"),
-    builder.Configuration["POSITION_DATABASE_HOST"],
-    builder.Configuration["POSITION_DATABASE"],
-    builder.Configuration["POSITION_DATABASE_USER"],
-    builder.Configuration["POSITION_DATABASE_PASSWORD"]);
+  builder.Configuration.GetConnectionString("PositionDatabase"),
+  builder.Configuration["POSITION_DATABASE_HOST"],
+  builder.Configuration["POSITION_DATABASE"],
+  builder.Configuration["POSITION_DATABASE_USER"],
+  builder.Configuration["POSITION_DATABASE_PASSWORD"]);
 builder.Services.AddDbContext<PositionContext>(options => options.UseNpgsql(connectionString));
 // Setup HealthChecks
 builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
@@ -50,25 +50,25 @@ builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Setup DI
 builder.Services
-    // Config
-    .AddSingleton(builder.Configuration)
-    // Context
-    .AddScoped<IPositionContext>(provider => provider.GetService<PositionContext>())
-    // Repos
-    .AddScoped<IPositionRepository, PositionRepository>()
-    // Services
-    .AddScoped<IGetPositionsService, GetPositionsService>();
+  // Config
+  .AddSingleton(builder.Configuration)
+  // Context
+  .AddScoped<IPositionContext>(provider => provider.GetService<PositionContext>())
+  // Repos
+  .AddScoped<IPositionRepository, PositionRepository>()
+  // Services
+  .AddScoped<IGetPositionsService, GetPositionsService>();
 // Setup Swagger
 builder.Services.AddSwaggerGen(o =>
 {
-    o.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
-    var currentAssembly = Assembly.GetExecutingAssembly();
-    currentAssembly.GetReferencedAssemblies()
-        .Union(new AssemblyName[] { currentAssembly.GetName() })
-        .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
-        .Where(f => File.Exists(f))
-        .ToList()
-        .ForEach(f => o.IncludeXmlComments(f));
+  o.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
+  var currentAssembly = Assembly.GetExecutingAssembly();
+  currentAssembly.GetReferencedAssemblies()
+    .Union(new AssemblyName[] { currentAssembly.GetName() })
+    .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
+    .Where(f => File.Exists(f))
+    .ToList()
+    .ForEach(f => o.IncludeXmlComments(f));
 });
 // Setup Controllers
 builder.Services.AddControllers();
@@ -83,8 +83,8 @@ app.MapHealthChecks("/api/health", new HealthCheckOptions { AllowCachingResponse
 app.UseSwagger(c => c.RouteTemplate = SwaggerBasePath + "/swagger/{documentName}/swagger.json");
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint($"/{SwaggerBasePath}/swagger/{SwaggerVersion}/swagger.json", $"{SwaggerTitle} - {SwaggerVersion}");
-    c.RoutePrefix = $"{SwaggerBasePath}/swagger";
+  c.SwaggerEndpoint($"/{SwaggerBasePath}/swagger/{SwaggerVersion}/swagger.json", $"{SwaggerTitle} - {SwaggerVersion}");
+  c.RoutePrefix = $"{SwaggerBasePath}/swagger";
 });
 // Migrate Database on Startup
 using var scope = app.Services.CreateScope();

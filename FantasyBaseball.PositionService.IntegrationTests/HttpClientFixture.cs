@@ -4,22 +4,22 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace FantasyBaseball.PositionService.IntegrationTests
 {
-    public class HttpClientFixture : IDisposable
+  public class HttpClientFixture : IDisposable
+  {
+    private WebApplicationFactory<Program> _application;
+
+    public HttpClientFixture()
     {
-        private WebApplicationFactory<Program> _application;
-
-        public HttpClientFixture()
-        {
-            _application = new WebApplicationFactory<Program>();
-            Client = _application.CreateClient();
-        }
-
-        public HttpClient Client { get; private set; }
-
-        public void Dispose()
-        {
-            Client.Dispose();
-            _application.Dispose();
-        }
+      _application = new WebApplicationFactory<Program>();
+      Client = _application.CreateClient();
     }
+
+    public HttpClient Client { get; private set; }
+
+    public void Dispose()
+    {
+      Client.Dispose();
+      _application.Dispose();
+    }
+  }
 }

@@ -1,6 +1,7 @@
 # compiled code
 **/bin
 **/obj
+out/
 # files not needed for build
 _deploy/
 _dev/
@@ -17,6 +18,5 @@ version.txt
 .sonarqube/
 coverage-hits/
 coverage-results/
-out/
 coverage.json
 opencovercoverage.xml
