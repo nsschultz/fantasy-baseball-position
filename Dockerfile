@@ -1,11 +1,6 @@
 # syntax=docker/dockerfile:1
 FROM mcr.microsoft.com/dotnet/sdk:8.0.100 AS dev
-RUN mkdir -p /usr/share/man/man1 /usr/share/man/man2
-RUN apt-get update && apt-get install -y --no-install-recommends default-jre && \
-    dotnet tool install --global dotnet-sonarscanner --version 4.9.0 && \
-    dotnet tool install --global dotnet-ef --version 8.0.0
-ENV DOTNET_ROLL_FORWARD=Major \
-    PATH="$PATH:/root/.dotnet/tools"
+ENV PATH="$PATH:/root/.dotnet/tools"
 WORKDIR /app
 
 FROM dev AS build

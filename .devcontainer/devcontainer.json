@@ -3,7 +3,11 @@
   "dockerComposeFile": "../.docker-compose/docker-compose-dev.yaml",
   "service": "api",
   "workspaceFolder": "/app",
+  "features": { "ghcr.io/devcontainers/features/docker-in-docker": {} },
   "customizations": {
-    "vscode": { "extensions": ["ms-dotnettools.csdevkit", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker"] }
-  }
+    "vscode": {
+      "extensions": ["ms-dotnettools.csdevkit", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker", "github.vscode-github-actions"]
+    }
+  },
+  "postCreateCommand": "dotnet tool install --global dotnet-ef --version 8.0.0"
 }
