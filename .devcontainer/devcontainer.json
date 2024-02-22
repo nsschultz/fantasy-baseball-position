@@ -1,0 +1,9 @@
+{
+  "name": "net-position",
+  "dockerComposeFile": "../.docker-compose/docker-compose-dev.yaml",
+  "service": "api",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": { "extensions": ["ms-dotnettools.csdevkit", "esbenp.prettier-vscode"] }
+  }
+}

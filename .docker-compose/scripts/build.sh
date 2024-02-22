@@ -1,5 +1,6 @@
 #!/bin/bash
 rm -rf coverage-results/
+VERSION=$(cat version.txt)
 dotnet build
 dotnet sonarscanner begin \
   /k:FantasyBaseball.PositionService \

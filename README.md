@@ -24,8 +24,8 @@ version=$(cat version.txt) && docker build -t nschultz/fantasy-baseball-position
 - Command for starting/stopping dev containers:
 
 ```
-export app_version=$(cat version.txt) && docker compose -f _dev/docker-compose-dev.yaml -p fantasy-baseball-position up --build -d
-export app_version=$(cat version.txt) && docker compose -f _dev/docker-compose-dev.yaml -p fantasy-baseball-position down
+docker compose -f .docker-compose/docker-compose-dev.yaml -p fantasy-baseball-position up --build -d
+docker compose -f .docker-compose/docker-compose-dev.yaml -p fantasy-baseball-position down
 ```
 
 - Extensions are in the extensions.json file and should prompt to install on start
@@ -38,8 +38,8 @@ export app_version=$(cat version.txt) && docker compose -f _dev/docker-compose-d
 - Command for starting/stopping runtime containers:
 
 ```
-docker compose -f _dev/docker-compose-runtime.yaml -p fantasy-baseball-position up --build -d
-docker compose -f _dev/docker-compose-runtime.yaml -p fantasy-baseball-position down
+docker compose -f .docker-compose/docker-compose-runtime.yaml -p fantasy-baseball-position up --build -d
+docker compose -f .docker-compose/docker-compose-runtime.yaml -p fantasy-baseball-position down
 ```
 
 ---
