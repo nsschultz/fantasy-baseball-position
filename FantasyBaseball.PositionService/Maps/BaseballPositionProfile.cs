@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FantasyBaseball.PositionService.Database.Entities;
@@ -13,6 +12,6 @@ namespace FantasyBaseball.PositionService.Maps
     public BaseballPositionProfile() =>
       CreateMap<PositionEntity, BaseballPosition>()
         .ForMember(dest => dest.AdditionalPositions, opt => opt.MapFrom(src => src.ParentPositions.Select(p => p.ChildPosition)))
-        .AfterMap((src, dest) => dest.AdditionalPositions.ForEach(ap => ap.AdditionalPositions = new List<BaseballPosition>()));
+        .AfterMap((src, dest) => dest.AdditionalPositions.ForEach(ap => ap.AdditionalPositions = []));
   }
 }

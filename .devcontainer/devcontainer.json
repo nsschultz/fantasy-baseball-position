@@ -4,6 +4,6 @@
   "service": "api",
   "workspaceFolder": "/app",
   "customizations": {
-    "vscode": { "extensions": ["ms-dotnettools.csdevkit", "esbenp.prettier-vscode"] }
+    "vscode": { "extensions": ["ms-dotnettools.csdevkit", "esbenp.prettier-vscode", "ms-azuretools.vscode-docker"] }
   }
 }

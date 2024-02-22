@@ -10,76 +10,51 @@ namespace FantasyBaseball.PositionService.Maps.UnitTests
 {
   public class BaseballPositionProfileTest
   {
-    private static readonly PositionEntity DB_1B = new PositionEntity
-    {
-      Code = "1B",
-      FullName = "First Baseman",
-      PlayerType = PlayerType.B,
-      SortOrder = 1
-    };
-    private static readonly PositionEntity DB_CIF = new PositionEntity
-    {
-      Code = "CIF",
-      FullName = "Corner Infielder",
-      PlayerType = PlayerType.B,
-      SortOrder = 5
-    };
-    private static readonly PositionEntity DB_IF = new PositionEntity
-    {
-      Code = "IF",
-      FullName = "Infielder",
-      PlayerType = PlayerType.B,
-      SortOrder = 7
-    };
-    private static readonly PositionEntity DB_UTIL = new PositionEntity
-    {
-      Code = "UTIL",
-      FullName = "Utility",
-      PlayerType = PlayerType.B,
-      SortOrder = 13
-    };
-    private static List<PositionEntity> DatabasePositions = new List<PositionEntity> { DB_1B, DB_CIF, DB_IF, DB_UTIL };
-    private static readonly List<BaseballPosition> ExpectedPositions = new List<BaseballPosition>
-    {
-      new BaseballPosition
-      {
+    private static readonly PositionEntity DB_1B = new() { Code = "1B", FullName = "First Baseman", PlayerType = PlayerType.B, SortOrder = 1 };
+    private static readonly PositionEntity DB_CIF = new() { Code = "CIF", FullName = "Corner Infielder", PlayerType = PlayerType.B, SortOrder = 5 };
+    private static readonly PositionEntity DB_IF = new() { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 };
+    private static readonly PositionEntity DB_UTIL = new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 };
+    private static readonly List<PositionEntity> DatabasePositions = [DB_1B, DB_CIF, DB_IF, DB_UTIL];
+    private static readonly List<BaseballPosition> ExpectedPositions =
+    [
+      new() {
         Code = "1B",
         FullName = "First Baseman",
         PlayerType = PlayerType.B,
         SortOrder = 1,
-        AdditionalPositions = new List<BaseballPosition>
-        {
-          new BaseballPosition { Code = "CIF", FullName = "Corner Infielder", PlayerType = PlayerType.B, SortOrder = 5 },
-          new BaseballPosition { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
-          new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
-        }
+        AdditionalPositions =
+        [
+          new() { Code = "CIF", FullName = "Corner Infielder", PlayerType = PlayerType.B, SortOrder = 5 },
+          new() { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
+          new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
+        ]
       },
-      new BaseballPosition
+      new()
       {
         Code = "CIF",
         FullName = "Corner Infielder",
         PlayerType = PlayerType.B,
         SortOrder = 5,
-        AdditionalPositions = new List<BaseballPosition>
-        {
-          new BaseballPosition { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
-          new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
-        }
+        AdditionalPositions =
+        [
+          new() { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
+          new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
+        ]
       },
-      new BaseballPosition
+      new()
       {
         Code = "IF",
         FullName = "Infielder",
         PlayerType = PlayerType.B,
         SortOrder = 7,
-        AdditionalPositions = new List<BaseballPosition>
-        {
-          new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
-        }
+        AdditionalPositions =
+        [
+          new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
+        ]
       },
-      new BaseballPosition { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
-    };
-    private IMapper _mapper;
+      new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
+    ];
+    private readonly IMapper _mapper;
 
     public BaseballPositionProfileTest() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile())).CreateMapper();
 

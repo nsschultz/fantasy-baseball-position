@@ -24,10 +24,9 @@ namespace FantasyBaseball.PositionService.Services
     public async Task<List<BaseballPosition>> GetPositions()
     {
       var positions = await _positionRepo.GetPositions();
-      return positions
+      return [.. positions
         .Select(p => _mapper.Map<PositionEntity, BaseballPosition>(p))
-        .OrderBy(p => p.SortOrder)
-        .ToList();
+        .OrderBy(p => p.SortOrder)];
     }
   }
 }
