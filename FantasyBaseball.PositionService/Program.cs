@@ -64,7 +64,7 @@ builder.Services.AddSwaggerGen(o =>
   o.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
   var currentAssembly = Assembly.GetExecutingAssembly();
   currentAssembly.GetReferencedAssemblies()
-    .Union(new AssemblyName[] { currentAssembly.GetName() })
+    .Union([currentAssembly.GetName()])
     .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
     .Where(f => File.Exists(f))
     .ToList()
@@ -78,7 +78,7 @@ var app = builder.Build();
 app.UseCors(BaseballSpecificOrigins);
 app.UseHsts();
 app.UseRouting();
-app.UseEndpoints(endpoints => endpoints.MapControllers());
+app.MapControllers();
 app.MapHealthChecks("/api/health", new HealthCheckOptions { AllowCachingResponses = false });
 app.UseSwagger(c => c.RouteTemplate = SwaggerBasePath + "/swagger/{documentName}/swagger.json");
 app.UseSwaggerUI(c =>

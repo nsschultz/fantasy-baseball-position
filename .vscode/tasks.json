@@ -17,7 +17,7 @@
       "label": "build-and-scan",
       "command": "sh",
       "type": "process",
-      "args": ["_dev/scripts/build.sh"],
+      "args": [".docker-compose/scripts/build.sh"],
       "problemMatcher": "$msCompile"
     },
     {

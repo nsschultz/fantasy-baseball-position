@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Services;
 using Moq;
@@ -12,8 +11,8 @@ namespace FantasyBaseball.PositionService.Controllers.V1.UnitTests
     public async void GetPositionsTest()
     {
       var getService = new Mock<IGetPositionsService>();
-      getService.Setup(o => o.GetPositions()).ReturnsAsync(new List<BaseballPosition> { new BaseballPosition() });
-      Assert.NotEmpty((await new PositionController(getService.Object).GetPositions()));
+      getService.Setup(o => o.GetPositions()).ReturnsAsync([new BaseballPosition()]);
+      Assert.NotEmpty(await new PositionController(getService.Object).GetPositions());
     }
   }
 }

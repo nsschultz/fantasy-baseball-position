@@ -19,6 +19,6 @@ namespace FantasyBaseball.PositionService.Models
     public int SortOrder { get; set; }
 
     /// <summary>Additional positions that this position is eligible for.</summary>
-    public List<BaseballPosition> AdditionalPositions { get; set; } = new List<BaseballPosition>();
+    public List<BaseballPosition> AdditionalPositions { get; set; } = [];
   }
 }

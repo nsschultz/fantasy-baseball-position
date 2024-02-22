@@ -10,7 +10,7 @@ pipeline {
     stage ('build and scan') {
       steps { script { sh  """
         #!/bin/bash
-        sh _dev/scripts/ci.sh
+        sh .docker-compose/scripts/ci.sh
       """ } } 
     }
     stage('build and publish release') { 
@@ -27,12 +27,12 @@ pipeline {
       agent { label 'manager' }
       steps { script { sh """
         #!/bin/bash
-        sed -i "s/{{version}}/${VERSION_NUMBER}/g" ./_deploy/position-deployment.yaml
-        kubectl apply -f ./_deploy/position-database-deployment.yaml
-        kubectl apply -f ./_deploy/position-database-service.yaml
-        kubectl apply -f ./_deploy/position-deployment.yaml
-        kubectl apply -f ./_deploy/position-service.yaml
-        kubectl apply -f ./_deploy/position-ingress.yaml
+        sed -i "s/{{version}}/${VERSION_NUMBER}/g" ./.deploy/position-deployment.yaml
+        kubectl apply -f ./.deploy/position-database-deployment.yaml
+        kubectl apply -f ./.deploy/position-database-service.yaml
+        kubectl apply -f ./.deploy/position-deployment.yaml
+        kubectl apply -f ./.deploy/position-service.yaml
+        kubectl apply -f ./.deploy/position-ingress.yaml
       """ } }
     }
   }
