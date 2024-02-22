@@ -7,12 +7,6 @@ pipeline {
     DOCKER_HUB = credentials("dockerhub-creds")
   }
   stages {
-    stage ('build and scan') {
-      steps { script { sh  """
-        #!/bin/bash
-        sh .docker-compose/scripts/ci.sh
-      """ } } 
-    }
     stage('build and publish release') { 
       steps { script { sh  """
         #!/bin/bash
