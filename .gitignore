@@ -6,6 +6,7 @@ bak/
 data/
 libs/
 reports/
+.mono/
 # scanning data
 .sonarqube/
 coverage-hits/
