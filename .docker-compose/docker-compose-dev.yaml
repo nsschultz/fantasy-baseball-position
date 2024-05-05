@@ -4,7 +4,7 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      target: dev
+      target: ci
     restart: always
     command: sleep infinity
     environment:
@@ -13,11 +13,8 @@ services:
       - POSITION_DATABASE_HOST=database
       - POSITION_DATABASE_PASSWORD=postgres
       - POSITION_DATABASE_USER=postgres
-      - VERSION=${VERSION}
     ports:
       - "8080:8080"
-    volumes:
-      - ../:/app/
   database:
     build: database/
     restart: always

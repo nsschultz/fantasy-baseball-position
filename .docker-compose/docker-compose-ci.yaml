@@ -4,23 +4,19 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
-      target: dev
-    command: sh /app/.docker-compose/scripts/build.sh
+      target: ci
+    command: sh /app/.docker-compose/scripts/scan.sh
     depends_on:
       database:
         condition: service_healthy
     environment:
       - ASPNETCORE_URLS=http://+:8080
-      - MAIN_PROJ=FantasyBaseball.PositionService
       - POSITION_DATABASE=position_database
       - POSITION_DATABASE_HOST=database
       - POSITION_DATABASE_PASSWORD=postgres
       - POSITION_DATABASE_USER=postgres
-      - SONAR_CODE_EXCLUSIONS=Migrations/*.cs
-      - SONAR_COVERGE_EXCLUSIONS=Migrations/*.cs
-      - SONAR_KEY=fantasy-baseball-position
-      - SONAR_URL=http://sonarqube.schultz.local/
-      - VERSION=${VERSION_NUMBER}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - SONAR_TOKEN=${SONAR_TOKEN}
     volumes:
       - ../:/app/
   database:
