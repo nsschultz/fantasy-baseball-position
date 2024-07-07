@@ -18,6 +18,9 @@ COPY FantasyBaseball.PositionService/ .
 RUN dotnet publish -c Release -a "$TARGETARCH" --no-restore -o /app/out -v minimal
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0.2
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
 RUN useradd -u 5000 service-user && mkdir /app && chown -R service-user:service-user /app
 ENV ASPNETCORE_URLS=http://+:8080
 USER service-user:service-user
