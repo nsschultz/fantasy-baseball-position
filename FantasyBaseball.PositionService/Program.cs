@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 var BaseballSpecificOrigins = "_BaseballSpecificOrigins";
-var SwaggerBasePath = "api/v1/position";
+var SwaggerBasePath = "api";
 var SwaggerTitle = "FantasyBaseball.PositionService";
 var SwaggerVersion = "v1";
 
@@ -88,6 +88,6 @@ app.UseSwaggerUI(c =>
 });
 // Migrate Database on Startup
 using var scope = app.Services.CreateScope();
-scope.ServiceProvider.GetRequiredService<PositionContext>().Database.Migrate();
+await scope.ServiceProvider.GetRequiredService<PositionContext>().Database.MigrateAsync();
 // Start the App
-app.Run();
+await app.RunAsync();
