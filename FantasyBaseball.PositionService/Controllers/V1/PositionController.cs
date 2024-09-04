@@ -7,15 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace FantasyBaseball.PositionService.Controllers.V1
 {
   /// <summary>Endpoint for retrieving position data.</summary>
+  /// <remarks>Creates a new instance of the controller.</remarks>
+  /// <param name="getService">Service for getting positions.</param>
   [Route("api/v1/position")]
   [ApiController]
-  public class PositionController : ControllerBase
+  public class PositionController(IGetPositionsService getService) : ControllerBase
   {
-    private readonly IGetPositionsService _getService;
-
-    /// <summary>Creates a new instance of the controller.</summary>
-    /// <param name="getService">Service for getting positions.</param>
-    public PositionController(IGetPositionsService getService) => _getService = getService;
+    private readonly IGetPositionsService _getService = getService;
 
     /// <summary>Gets all of the positions from the source.</summary>
     /// <returns>All of the positions from the source.</returns>

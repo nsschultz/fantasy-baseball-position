@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Xunit;
 
-namespace FantasyBaseball.PositionService.Services.UnitTests
+namespace FantasyBaseball.PositionService.UnitTests.Database.Repositories
 {
   public class PositionRepositoryTest : IDisposable
   {

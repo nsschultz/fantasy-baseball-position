@@ -1,9 +1,10 @@
+using FantasyBaseball.PositionService.Controllers.V1;
 using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Services;
 using Moq;
 using Xunit;
 
-namespace FantasyBaseball.PositionService.Controllers.V1.UnitTests
+namespace FantasyBaseball.PositionService.UnitTests.Controllers.V1
 {
   public class PositionControllerTest
   {
