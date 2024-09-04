@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using FantasyBaseball.PositionService.Database.Entities;
+using FantasyBaseball.PositionService.Maps;
 using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Models.Enums;
 using Xunit;
 
-namespace FantasyBaseball.PositionService.Maps.UnitTests
+namespace FantasyBaseball.PositionService.UnitTests.Maps
 {
   public class BaseballPositionProfileTest
   {

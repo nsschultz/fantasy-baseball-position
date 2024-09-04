@@ -7,19 +7,17 @@ using Xunit;
 
 namespace FantasyBaseball.PositionService.IntegrationTests
 {
-  public class PositionIntegrationTests : IClassFixture<HttpClientFixture>
+  public class PositionIntegrationTests(HttpClientFixture fixture) : IClassFixture<HttpClientFixture>
   {
-    private HttpClientFixture _fixture;
-
-    public PositionIntegrationTests(HttpClientFixture fixture) => _fixture = fixture;
+    private HttpClientFixture _fixture = fixture;
+    private readonly JsonSerializerOptions _options = new() { PropertyNameCaseInsensitive = true };
 
     [Fact]
     public async void GetPositionsTest()
     {
       var repsonse = await _fixture.Client.GetAsync("/api/v1/position");
       Assert.Equal(HttpStatusCode.OK, repsonse.StatusCode);
-      var positions = await JsonSerializer.DeserializeAsync<List<BaseballPosition>>(
-        await repsonse.Content.ReadAsStreamAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+      var positions = await JsonSerializer.DeserializeAsync<List<BaseballPosition>>(await repsonse.Content.ReadAsStreamAsync(), _options);
       Assert.Equal(18, positions.Count);
       //Ensure additional positions don't contain additional positions
       positions
@@ -30,7 +28,7 @@ namespace FantasyBaseball.PositionService.IntegrationTests
 
     [Theory]
     [InlineData("/api/health")]
-    [InlineData("/api/v1/position/swagger/index.html")]
+    [InlineData("/api/swagger/index.html")]
     public async void GetSimpleTests(string url)
     {
       var httpResponse = await _fixture.Client.GetAsync(url);

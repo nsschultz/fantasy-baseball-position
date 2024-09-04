@@ -6,10 +6,11 @@ using FantasyBaseball.PositionService.Database.Repositories;
 using FantasyBaseball.PositionService.Maps;
 using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Models.Enums;
+using FantasyBaseball.PositionService.Services;
 using Moq;
 using Xunit;
 
-namespace FantasyBaseball.PositionService.Services.UnitTests
+namespace FantasyBaseball.PositionService.UnitTests.Services
 {
   public class GetPositionServiceTest
   {
