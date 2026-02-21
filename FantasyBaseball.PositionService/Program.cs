@@ -43,7 +43,10 @@ var connectionString = string.Format(
   builder.Configuration["POSITION_DATABASE"],
   builder.Configuration["POSITION_DATABASE_USER"],
   builder.Configuration["POSITION_DATABASE_PASSWORD"]);
-builder.Services.AddDbContext<PositionContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<PositionContext>(options =>
+{
+  options.UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+});
 // Setup HealthChecks
 builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
 // Setup Automapper
