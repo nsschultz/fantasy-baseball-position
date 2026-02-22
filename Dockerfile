@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0.100 AS dev
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0 AS dev
 ARG TARGETARCH
 ENV PATH="$PATH:/root/.dotnet/tools"
 WORKDIR /app
@@ -17,7 +17,7 @@ RUN dotnet restore -a "$TARGETARCH"
 COPY FantasyBaseball.PositionService/ .
 RUN dotnet publish -c Release -a "$TARGETARCH" --no-restore -o /app/out -v minimal
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.2
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl && \
     rm -rf /var/lib/apt/lists/*

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 var BaseballSpecificOrigins = "_BaseballSpecificOrigins";
 var SwaggerBasePath = "api";
@@ -43,7 +43,10 @@ var connectionString = string.Format(
   builder.Configuration["POSITION_DATABASE"],
   builder.Configuration["POSITION_DATABASE_USER"],
   builder.Configuration["POSITION_DATABASE_PASSWORD"]);
-builder.Services.AddDbContext<PositionContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<PositionContext>(options =>
+{
+  options.UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+});
 // Setup HealthChecks
 builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
 // Setup Automapper

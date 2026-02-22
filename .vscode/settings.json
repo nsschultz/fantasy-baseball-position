@@ -7,5 +7,5 @@
   "editor.formatOnType": true,
   "editor.tabSize": 2,
   "omnisharp.enableEditorConfigSupport": true,
-  "omnisharp.organizeImportsOnFormat": true
+  "dotnet.formatting.organizeImportsOnFormat": true
 }
