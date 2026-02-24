@@ -7,5 +7,10 @@
   "editor.formatOnType": true,
   "editor.tabSize": 2,
   "omnisharp.enableEditorConfigSupport": true,
-  "dotnet.formatting.organizeImportsOnFormat": true
+  "dotnet.formatting.organizeImportsOnFormat": true,
+  "sonarlint.ls.javaHome": "/usr/lib/jvm/java-21-openjdk-arm64",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "nsschultz",
+    "projectKey": "nsschultz_fantasy-baseball-position"
+  }
 }
