@@ -8,6 +8,7 @@ using FantasyBaseball.PositionService.Maps;
 using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Models.Enums;
 using FantasyBaseball.PositionService.Services;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 
@@ -44,7 +45,7 @@ public class GetPositionServiceTest
   [Fact]
   public async Task GetPositionsTest()
   {
-    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile())).CreateMapper();
+    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
     var positionRepo = new Mock<IPositionRepository>();
     positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(POSITIONS);
     var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();

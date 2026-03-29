@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using FantasyBaseball.PositionService.Database;
 using FantasyBaseball.PositionService.Database.Repositories;
+using FantasyBaseball.PositionService.Maps;
 using FantasyBaseball.PositionService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -50,7 +51,7 @@ builder.Services.AddDbContext<PositionContext>(options =>
 // Setup HealthChecks
 builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
 // Setup Automapper
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(cfg => { }, typeof(BaseballPositionProfile));
 // Setup DI
 builder.Services
   // Config

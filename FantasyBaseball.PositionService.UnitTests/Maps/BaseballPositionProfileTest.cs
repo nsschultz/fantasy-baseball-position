@@ -5,6 +5,7 @@ using FantasyBaseball.PositionService.Database.Entities;
 using FantasyBaseball.PositionService.Maps;
 using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Models.Enums;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace FantasyBaseball.PositionService.UnitTests.Maps;
@@ -57,7 +58,7 @@ public class BaseballPositionProfileTest
   ];
   private readonly IMapper _mapper;
 
-  public BaseballPositionProfileTest() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile())).CreateMapper();
+  public BaseballPositionProfileTest() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
 
   [Fact] public void BuildBaseballPositionNullTest() => Assert.Null(_mapper.Map<BaseballPosition>(null));
 
