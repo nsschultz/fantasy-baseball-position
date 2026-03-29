@@ -15,6 +15,7 @@ services:
       - POSITION_DATABASE_HOST=database
       - POSITION_DATABASE_PASSWORD=postgres
       - POSITION_DATABASE_USER=postgres
+      - SERVICE=fantasy-baseball-position
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - SONAR_TOKEN=${SONAR_TOKEN}
       - VERSION=${VERSION}

@@ -12,7 +12,7 @@
       "label": "build-and-scan",
       "command": "sh",
       "type": "process",
-      "args": [".docker-compose/scripts/scan.sh"],
+      "args": ["/scripts/scan.sh"],
       "problemMatcher": "$msCompile"
     },
     {
