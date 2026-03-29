@@ -5,7 +5,7 @@ services:
       context: ../
       dockerfile: Dockerfile
       target: ci
-    command: sh /app/.docker-compose/scripts/scan.sh
+    command: sh /scripts/scan.sh
     depends_on:
       database:
         condition: service_healthy
@@ -15,8 +15,10 @@ services:
       - POSITION_DATABASE_HOST=database
       - POSITION_DATABASE_PASSWORD=postgres
       - POSITION_DATABASE_USER=postgres
+      - SERVICE=fantasy-baseball-position
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - SONAR_TOKEN=${SONAR_TOKEN}
+      - VERSION=${VERSION}
     volumes:
       - ../:/app/
   database:

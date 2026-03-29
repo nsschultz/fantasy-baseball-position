@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FantasyBaseball.PositionService.Models;
+using FantasyBaseball.Common.Models;
 
 namespace FantasyBaseball.PositionService.Services;
 
@@ -9,5 +9,5 @@ public interface IGetPositionsService
 {
   /// <summary>Gets the positions from the underlying source.</summary>
   /// <returns>A list of the positions.</returns>
-  Task<List<BaseballPosition>> GetPositions();
+  Task<List<Position>> GetPositions();
 }
