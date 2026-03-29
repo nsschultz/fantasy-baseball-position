@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FantasyBaseball.Common.Enums;
+using FantasyBaseball.Common.Models;
 using FantasyBaseball.PositionService.Database.Entities;
 using FantasyBaseball.PositionService.Database.Repositories;
 using FantasyBaseball.PositionService.Maps;
-using FantasyBaseball.PositionService.Models;
-using FantasyBaseball.PositionService.Models.Enums;
 using FantasyBaseball.PositionService.Services;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -53,7 +53,7 @@ public class GetPositionServiceTest
     for (int x = 0; x < 18; x++) ValidatePosition(POSITIONS.First(p => p.Code == SORTED_CODES[x]), positions[x]);
   }
 
-  private static void ValidatePosition(PositionEntity expected, BaseballPosition actual)
+  private static void ValidatePosition(PositionEntity expected, Position actual)
   {
     Assert.Equal(expected.Code, actual.Code);
     Assert.Equal(expected.FullName, actual.FullName);

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FantasyBaseball.PositionService.Models;
+using FantasyBaseball.Common.Models;
 using FantasyBaseball.PositionService.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,5 +16,5 @@ public class PositionController(IGetPositionsService getService) : ControllerBas
   /// <summary>Gets all of the positions from the source.</summary>
   /// <returns>All of the positions from the source.</returns>
   [HttpGet]
-  public async Task<List<BaseballPosition>> GetPositions() => await getService.GetPositions();
+  public async Task<List<Position>> GetPositions() => await getService.GetPositions();
 }

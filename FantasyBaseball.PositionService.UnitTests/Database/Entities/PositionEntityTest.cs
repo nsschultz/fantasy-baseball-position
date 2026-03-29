@@ -1,5 +1,5 @@
+using FantasyBaseball.Common.Enums;
 using FantasyBaseball.PositionService.Database.Entities;
-using FantasyBaseball.PositionService.Models.Enums;
 using Xunit;
 
 namespace FantasyBaseball.PositionService.UnitTests.Database.Entities;

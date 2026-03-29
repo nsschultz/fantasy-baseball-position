@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using FantasyBaseball.Common.Enums;
+using FantasyBaseball.Common.Models;
 using FantasyBaseball.PositionService.Database.Entities;
 using FantasyBaseball.PositionService.Maps;
-using FantasyBaseball.PositionService.Models;
-using FantasyBaseball.PositionService.Models.Enums;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
@@ -17,7 +17,7 @@ public class BaseballPositionProfileTest
   private static readonly PositionEntity DB_IF = new() { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 };
   private static readonly PositionEntity DB_UTIL = new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 };
   private static readonly List<PositionEntity> DatabasePositions = [DB_1B, DB_CIF, DB_IF, DB_UTIL];
-  private static readonly List<BaseballPosition> ExpectedPositions =
+  private static readonly List<Position> ExpectedPositions =
   [
     new() {
       Code = "1B",
@@ -60,7 +60,7 @@ public class BaseballPositionProfileTest
 
   public BaseballPositionProfileTest() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
 
-  [Fact] public void BuildBaseballPositionNullTest() => Assert.Null(_mapper.Map<BaseballPosition>(null));
+  [Fact] public void BuildBaseballPositionNullTest() => Assert.Null(_mapper.Map<Position>(null));
 
   [Fact]
   public void BuildBaseballPositionValidTest()
@@ -74,7 +74,7 @@ public class BaseballPositionProfileTest
     ExpectedPositions.ForEach(expected =>
     {
       var databasePosition = DatabasePositions.First(dp => dp.Code == expected.Code);
-      var actual = _mapper.Map<BaseballPosition>(databasePosition);
+      var actual = _mapper.Map<Position>(databasePosition);
       ValidatePosition(expected, actual);
     });
   }
@@ -86,7 +86,7 @@ public class BaseballPositionProfileTest
     child.ChildPositions.Add(relationship);
   }
 
-  private static void ValidatePosition(BaseballPosition expected, BaseballPosition actual)
+  private static void ValidatePosition(Position expected, Position actual)
   {
     Assert.Equal(expected.Code, actual.Code);
     Assert.Equal(expected.FullName, actual.FullName);

@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using FantasyBaseball.Common.Exceptions;
 using FantasyBaseball.PositionService.Database;
 using FantasyBaseball.PositionService.Database.Repositories;
 using FantasyBaseball.PositionService.Maps;
@@ -75,7 +76,7 @@ builder.Services.AddSwaggerGen(o =>
     .ForEach(f => o.IncludeXmlComments(f));
 });
 // Setup Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<ExceptionFilter>());
 
 // Build the App
 var app = builder.Build();
