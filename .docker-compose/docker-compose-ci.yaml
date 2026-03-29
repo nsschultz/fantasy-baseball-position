@@ -5,7 +5,7 @@ services:
       context: ../
       dockerfile: Dockerfile
       target: ci
-    command: sh /app/.docker-compose/scripts/scan.sh
+    command: sh /scripts/scan.sh
     depends_on:
       database:
         condition: service_healthy
