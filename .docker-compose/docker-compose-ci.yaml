@@ -17,6 +17,7 @@ services:
       - POSITION_DATABASE_USER=postgres
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - SONAR_TOKEN=${SONAR_TOKEN}
+      - VERSION=${VERSION}
     volumes:
       - ../:/app/
   database:
