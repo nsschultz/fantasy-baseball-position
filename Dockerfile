@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM nschultz/fantasy-baseball-common-backend:1.0.0 AS dev
+FROM --platform=$BUILDPLATFORM nschultz/fantasy-baseball-common-backend:1.0.1 AS dev
 ARG TARGETARCH
 
 FROM dev AS ci
