@@ -17,6 +17,7 @@ services:
       - POSITION_DATABASE_USER=postgres
       - SERVICE=fantasy-baseball-position
       - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_USER=${GITHUB_USER}
       - SONAR_TOKEN=${SONAR_TOKEN}
       - VERSION=${VERSION}
     volumes:

@@ -23,8 +23,6 @@ version=$(cat version.txt) && docker build -t nschultz/fantasy-baseball-position
 
 ### Dev Container
 
-### Dev Container
-
 - In VS Code, use the "Clone Repository into Container Volume..." option to open the workspace.
 - Tasks are setup in tasks.json.
 

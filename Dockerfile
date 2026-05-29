@@ -2,6 +2,9 @@ FROM --platform=$BUILDPLATFORM nschultz/fantasy-baseball-common-backend:1.0.1 AS
 ARG TARGETARCH
 
 FROM dev AS ci
+ARG GITHUB_USERNAME
+ARG GITHUB_TOKEN
+RUN dotnet nuget add source --username "$GITHUB_USERNAME" --password "$GITHUB_TOKEN" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
 COPY --chown=appuser:appuser . .
 
 FROM dev AS build
