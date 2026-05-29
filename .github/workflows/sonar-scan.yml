@@ -6,12 +6,11 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-permissions:
-  packages: read
-
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
+    permissions:
+      packages: read
     steps:
       - name: checkout
         uses: actions/checkout@v4
