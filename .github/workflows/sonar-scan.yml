@@ -9,8 +9,6 @@ on:
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
-    permissions:
-      packages: read
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -22,6 +20,7 @@ jobs:
           echo "VERSION=$VER" >> $GITHUB_ENV
       - name: Build, Test, & Scan
         env:
+          NUGET_PAT: ${{ secrets.NUGET_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USER: "nsschultz"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

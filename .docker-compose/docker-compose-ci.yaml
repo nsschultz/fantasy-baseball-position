@@ -18,6 +18,7 @@ services:
       - SERVICE=fantasy-baseball-position
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - GITHUB_USER=${GITHUB_USER}
+      - NUGET_PAT=${NUGET_PAT}
       - SONAR_TOKEN=${SONAR_TOKEN}
       - VERSION=${VERSION}
     volumes:
