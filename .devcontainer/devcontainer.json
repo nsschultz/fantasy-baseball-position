@@ -2,7 +2,7 @@
   "name": "net-position",
   "dockerComposeFile": "../.docker-compose/docker-compose-dev.yaml",
   "service": "api",
-  "workspaceFolder": "/app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "features": { "ghcr.io/devcontainers/features/docker-in-docker": {} },
   "customizations": {
     "vscode": {

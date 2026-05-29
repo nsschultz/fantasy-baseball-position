@@ -6,6 +6,9 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  packages: read
+
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
@@ -21,7 +24,7 @@ jobs:
       - name: Build, Test, & Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USER: "OWNER"
+          GITHUB_USER: "nsschultz"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           VERSION: ${{ env.VERSION }}
         run: |
