@@ -21,7 +21,7 @@ jobs:
       - name: Build, Test, & Scan
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USER: "nsschultz"
+          GITHUB_USERNAME: "nsschultz"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           VERSION: ${{ env.VERSION }}
         run: |
