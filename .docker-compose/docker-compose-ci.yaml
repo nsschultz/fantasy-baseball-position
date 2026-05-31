@@ -4,6 +4,9 @@ services:
     build:
       context: ../
       dockerfile: Dockerfile
+      args:
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+        - GITHUB_USER=${GITHUB_USER}
       target: ci
     command: sh /scripts/scan.sh
     depends_on:
@@ -17,8 +20,6 @@ services:
       - POSITION_DATABASE_USER=postgres
       - SERVICE=fantasy-baseball-position
       - GITHUB_TOKEN=${GITHUB_TOKEN}
-      - GITHUB_USER=${GITHUB_USER}
-      - NUGET_PAT=${NUGET_PAT}
       - SONAR_TOKEN=${SONAR_TOKEN}
       - VERSION=${VERSION}
     volumes:
