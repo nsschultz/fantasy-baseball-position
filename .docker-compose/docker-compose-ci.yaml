@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       args:
         - GITHUB_TOKEN=${GITHUB_TOKEN}
-        - GITHUB_USER=${GITHUB_USER}
+        - GITHUB_USERNAME=${GITHUB_USERNAME}
       target: ci
     command: sh /scripts/scan.sh
     depends_on:

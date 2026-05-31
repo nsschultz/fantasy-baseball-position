@@ -20,7 +20,6 @@ jobs:
           echo "VERSION=$VER" >> $GITHUB_ENV
       - name: Build, Test, & Scan
         env:
-          NUGET_PAT: ${{ secrets.NUGET_PAT }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_USER: "nsschultz"
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
