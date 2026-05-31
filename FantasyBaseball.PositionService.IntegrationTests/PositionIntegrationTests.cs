@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
-using FantasyBaseball.PositionService.Models;
+using FantasyBaseball.Common.Models;
 using Xunit;
 
 namespace FantasyBaseball.PositionService.IntegrationTests;
@@ -17,7 +17,7 @@ public class PositionIntegrationTests(HttpClientFixture fixture) : IClassFixture
   {
     var repsonse = await fixture.Client.GetAsync("/api/v1/position");
     Assert.Equal(HttpStatusCode.OK, repsonse.StatusCode);
-    var positions = await JsonSerializer.DeserializeAsync<List<BaseballPosition>>(await repsonse.Content.ReadAsStreamAsync(), _options);
+    var positions = await JsonSerializer.DeserializeAsync<List<Position>>(await repsonse.Content.ReadAsStreamAsync(), _options);
     Assert.Equal(18, positions.Count);
     //Ensure additional positions don't contain additional positions
     positions

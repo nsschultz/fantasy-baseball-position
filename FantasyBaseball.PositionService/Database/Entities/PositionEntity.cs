@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using FantasyBaseball.PositionService.Models.Enums;
+using FantasyBaseball.Common.Enums;
 
 namespace FantasyBaseball.PositionService.Database.Entities;
 

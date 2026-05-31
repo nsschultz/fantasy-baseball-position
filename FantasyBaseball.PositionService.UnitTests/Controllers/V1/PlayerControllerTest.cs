@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
+using FantasyBaseball.Common.Models;
 using FantasyBaseball.PositionService.Controllers.V1;
-using FantasyBaseball.PositionService.Models;
 using FantasyBaseball.PositionService.Services;
 using Moq;
 using Xunit;
@@ -13,7 +13,7 @@ public class PositionControllerTest
   public async Task GetPositionsTest()
   {
     var getService = new Mock<IGetPositionsService>();
-    getService.Setup(o => o.GetPositions()).ReturnsAsync([new BaseballPosition()]);
+    getService.Setup(o => o.GetPositions()).ReturnsAsync([new Position()]);
     Assert.NotEmpty(await new PositionController(getService.Object).GetPositions());
   }
 }

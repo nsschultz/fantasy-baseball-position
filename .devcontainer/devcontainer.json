@@ -2,7 +2,7 @@
   "name": "net-position",
   "dockerComposeFile": "../.docker-compose/docker-compose-dev.yaml",
   "service": "api",
-  "workspaceFolder": "/app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "features": { "ghcr.io/devcontainers/features/docker-in-docker": {} },
   "customizations": {
     "vscode": {
@@ -16,5 +16,5 @@
       ]
     }
   },
-  "postCreateCommand": "dotnet tool install --global dotnet-ef --version 10.0.0"
+  "postCreateCommand": "dotnet tool install --global dotnet-ef --version 10.0.5"
 }

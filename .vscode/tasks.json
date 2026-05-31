@@ -12,7 +12,7 @@
       "label": "build-and-scan",
       "command": "sh",
       "type": "process",
-      "args": [".docker-compose/scripts/scan.sh"],
+      "args": ["/scripts/scan.sh"],
       "problemMatcher": "$msCompile"
     },
     {
@@ -46,6 +46,25 @@
       "problemMatcher": "$msCompile"
     },
     {
+      "label": "setup-nuget",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "nuget",
+        "add",
+        "source",
+        "--username",
+        "${input:githubUsername}",
+        "--password",
+        "${input:githubPat}",
+        "--store-password-in-clear-text",
+        "--name",
+        "github",
+        "https://nuget.pkg.github.com/nsschultz/index.json"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
       "label": "test",
       "command": "dotnet",
       "type": "process",
@@ -57,6 +76,16 @@
     {
       "id": "migrationName",
       "description": "Name of the Migration",
+      "type": "promptString"
+    },
+    {
+      "id": "githubPat",
+      "description": "PAT for accessing nuget registry within GitHub",
+      "type": "promptString"
+    },
+    {
+      "id": "githubUsername",
+      "description": "Username for GitHub",
       "type": "promptString"
     }
   ]

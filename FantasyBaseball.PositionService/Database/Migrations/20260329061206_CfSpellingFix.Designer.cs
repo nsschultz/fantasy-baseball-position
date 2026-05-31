@@ -2,6 +2,7 @@
 using FantasyBaseball.PositionService.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FantasyBaseball.PositionService.Database.Migrations
 {
     [DbContext(typeof(PositionContext))]
-    partial class PositionContextModelSnapshot : ModelSnapshot
+    [Migration("20260329061206_CfSpellingFix")]
+    partial class CfSpellingFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

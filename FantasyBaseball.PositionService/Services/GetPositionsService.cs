@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FantasyBaseball.Common.Models;
 using FantasyBaseball.PositionService.Database.Entities;
 using FantasyBaseball.PositionService.Database.Repositories;
-using FantasyBaseball.PositionService.Models;
 
 namespace FantasyBaseball.PositionService.Services;
 
@@ -15,11 +15,11 @@ public class GetPositionsService(IMapper mapper, IPositionRepository positionRep
 {
   /// <summary>Gets the positions from the underlying source.</summary>
   /// <returns>A list of the positions.</returns>
-  public async Task<List<BaseballPosition>> GetPositions()
+  public async Task<List<Position>> GetPositions()
   {
     var positions = await positionRepo.GetPositions();
     return [.. positions
-      .Select(mapper.Map<PositionEntity, BaseballPosition>)
+      .Select(mapper.Map<PositionEntity, Position>)
       .OrderBy(p => p.SortOrder)];
   }
 }
