@@ -1,7 +1,7 @@
 using System.Linq;
 using AutoMapper;
+using FantasyBaseball.Common.Models;
 using FantasyBaseball.PositionService.Database.Entities;
-using FantasyBaseball.PositionService.Models;
 
 namespace FantasyBaseball.PositionService.Maps;
 
@@ -10,7 +10,7 @@ public class BaseballPositionProfile : Profile
 {
   /// <summary>Create a new instance of the profile.</summary>
   public BaseballPositionProfile() =>
-    CreateMap<PositionEntity, BaseballPosition>()
+    CreateMap<PositionEntity, Position>()
       .ForMember(dest => dest.AdditionalPositions, opt => opt.MapFrom(src => src.ParentPositions.Select(p => p.ChildPosition)))
       .AfterMap((src, dest) => dest.AdditionalPositions.ForEach(ap => ap.AdditionalPositions = []));
 }

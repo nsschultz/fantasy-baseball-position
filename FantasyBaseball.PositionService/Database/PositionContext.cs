@@ -1,5 +1,5 @@
+using FantasyBaseball.Common.Enums;
 using FantasyBaseball.PositionService.Database.Entities;
-using FantasyBaseball.PositionService.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -81,7 +81,7 @@ public class PositionContext(DbContextOptions<PositionContext> options) : DbCont
       new PositionEntity { Code = "MIF", FullName = "Middle Infielder", PlayerType = PlayerType.B, SortOrder = 6 },
       new PositionEntity { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 },
       new PositionEntity { Code = "LF", FullName = "Left Fielder", PlayerType = PlayerType.B, SortOrder = 8 },
-      new PositionEntity { Code = "CF", FullName = "Center Feilder", PlayerType = PlayerType.B, SortOrder = 9 },
+      new PositionEntity { Code = "CF", FullName = "Center Fielder", PlayerType = PlayerType.B, SortOrder = 9 },
       new PositionEntity { Code = "RF", FullName = "Right Fielder", PlayerType = PlayerType.B, SortOrder = 10 },
       new PositionEntity { Code = "OF", FullName = "Outfielder", PlayerType = PlayerType.B, SortOrder = 11 },
       new PositionEntity { Code = "DH", FullName = "Designated Hitter", PlayerType = PlayerType.B, SortOrder = 12 },

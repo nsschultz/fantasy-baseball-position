@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FantasyBaseball.Common.Enums;
 using FantasyBaseball.PositionService.Database;
 using FantasyBaseball.PositionService.Database.Entities;
 using FantasyBaseball.PositionService.Database.Repositories;
-using FantasyBaseball.PositionService.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Xunit;
 
 namespace FantasyBaseball.PositionService.UnitTests.Database.Repositories;
 
-public class PositionRepositoryTest : IDisposable
+public class PositionRepositoryTest : IAsyncDisposable
 {
   private static readonly Dictionary<string, PositionEntity> ExpectedCollection = new List<PositionEntity>
   {
@@ -26,7 +26,7 @@ public class PositionRepositoryTest : IDisposable
     new() { Code = "MIF" , FullName = "Middle Infielder" , PlayerType = PlayerType.B, SortOrder = 6            },
     new() { Code = "IF"  , FullName = "Infielder"        , PlayerType = PlayerType.B, SortOrder = 7            },
     new() { Code = "LF"  , FullName = "Left Fielder"     , PlayerType = PlayerType.B, SortOrder = 8            },
-    new() { Code = "CF"  , FullName = "Center Feilder"   , PlayerType = PlayerType.B, SortOrder = 9            },
+    new() { Code = "CF"  , FullName = "Center Fielder"   , PlayerType = PlayerType.B, SortOrder = 9            },
     new() { Code = "RF"  , FullName = "Right Fielder"    , PlayerType = PlayerType.B, SortOrder = 10           },
     new() { Code = "OF"  , FullName = "Outfielder"       , PlayerType = PlayerType.B, SortOrder = 11           },
     new() { Code = "DH"  , FullName = "Designated Hitter", PlayerType = PlayerType.B, SortOrder = 12           },
@@ -58,7 +58,7 @@ public class PositionRepositoryTest : IDisposable
     { "P"   , new [] { "SP", "RP" } }
   }.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Length);
 
-  private static Dictionary<string, int> ExpectedParentCount = new Dictionary<string, string[]>
+  private static readonly Dictionary<string, int> ExpectedParentCount = new Dictionary<string, string[]>
   {
     { ""    , Array.Empty<string>() },
     { "C"   , new [] { "UTIL" } },
@@ -101,17 +101,16 @@ public class PositionRepositoryTest : IDisposable
     });
   }
 
-  public void Dispose()
+  public async ValueTask DisposeAsync()
   {
-    Dispose(true);
-    GC.SuppressFinalize(this);
+    await Dispose(true);
   }
 
-  protected virtual void Dispose(bool disposing)
+  protected virtual async Task Dispose(bool disposing)
   {
     if (!disposing) return;
-    _context.Database.EnsureDeleted();
-    _context.Dispose();
+    await _context.Database.EnsureDeletedAsync();
+    await _context.DisposeAsync();
   }
 
   private static async Task<PositionContext> CreateContext()
@@ -121,7 +120,7 @@ public class PositionRepositoryTest : IDisposable
       .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
       .Options;
     var context = new PositionContext(options);
-    context.Database.EnsureCreated();
+    await context.Database.EnsureCreatedAsync();
     Assert.Equal(18, await context.Positions.CountAsync());
     Assert.Equal(28, await context.AdditionalPositions.CountAsync());
     return context;

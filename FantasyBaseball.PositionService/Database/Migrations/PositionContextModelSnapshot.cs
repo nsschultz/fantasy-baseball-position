@@ -16,12 +16,12 @@ namespace FantasyBaseball.PositionService.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "10.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FantasyBaseball.PositionService.Entities.AdditionalPositionEntity", b =>
+            modelBuilder.Entity("FantasyBaseball.PositionService.Database.Entities.AdditionalPositionEntity", b =>
                 {
                     b.Property<string>("ParentCode")
                         .HasColumnType("character varying(4)");
@@ -179,7 +179,7 @@ namespace FantasyBaseball.PositionService.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FantasyBaseball.PositionService.Entities.PositionEntity", b =>
+            modelBuilder.Entity("FantasyBaseball.PositionService.Database.Entities.PositionEntity", b =>
                 {
                     b.Property<string>("Code")
                         .HasMaxLength(4)
@@ -277,7 +277,7 @@ namespace FantasyBaseball.PositionService.Database.Migrations
                         new
                         {
                             Code = "CF",
-                            FullName = "Center Feilder",
+                            FullName = "Center Fielder",
                             PlayerType = 1,
                             SortOrder = 9
                         },
@@ -332,16 +332,16 @@ namespace FantasyBaseball.PositionService.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FantasyBaseball.PositionService.Entities.AdditionalPositionEntity", b =>
+            modelBuilder.Entity("FantasyBaseball.PositionService.Database.Entities.AdditionalPositionEntity", b =>
                 {
-                    b.HasOne("FantasyBaseball.PositionService.Entities.PositionEntity", "ChildPosition")
+                    b.HasOne("FantasyBaseball.PositionService.Database.Entities.PositionEntity", "ChildPosition")
                         .WithMany("ChildPositions")
                         .HasForeignKey("ChildCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("AdditionalPosition_ChildPosition_FK");
 
-                    b.HasOne("FantasyBaseball.PositionService.Entities.PositionEntity", "ParentPosition")
+                    b.HasOne("FantasyBaseball.PositionService.Database.Entities.PositionEntity", "ParentPosition")
                         .WithMany("ParentPositions")
                         .HasForeignKey("ParentCode")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -353,7 +353,7 @@ namespace FantasyBaseball.PositionService.Database.Migrations
                     b.Navigation("ParentPosition");
                 });
 
-            modelBuilder.Entity("FantasyBaseball.PositionService.Entities.PositionEntity", b =>
+            modelBuilder.Entity("FantasyBaseball.PositionService.Database.Entities.PositionEntity", b =>
                 {
                     b.Navigation("ChildPositions");
 

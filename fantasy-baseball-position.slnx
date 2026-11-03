@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="FantasyBaseball.PositionService/FantasyBaseball.PositionService.csproj" />
+  <Project Path="FantasyBaseball.PositionService.IntegrationTests/FantasyBaseball.PositionService.IntegrationTests.csproj" />
+  <Project Path="FantasyBaseball.PositionService.UnitTests/FantasyBaseball.PositionService.UnitTests.csproj" />
+</Solution>
