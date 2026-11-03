@@ -30,3 +30,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: nschultz/fantasy-baseball-position:${{ env.VERSION }}
+          build-args: |
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            GITHUB_USERNAME="nsschultz"
