@@ -31,5 +31,5 @@ jobs:
           push: true
           tags: nschultz/fantasy-baseball-position:${{ env.VERSION }}
           build-args: |
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            GITHUB_USERNAME: "nsschultz"
+            GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            GITHUB_USERNAME="nsschultz"
