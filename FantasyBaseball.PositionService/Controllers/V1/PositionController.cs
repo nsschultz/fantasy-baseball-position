@@ -13,8 +13,8 @@ namespace FantasyBaseball.PositionService.Controllers.V1;
 [ApiController]
 public class PositionController(IGetPositionsService getService) : ControllerBase
 {
-  /// <summary>Gets all of the positions from the source.</summary>
-  /// <returns>All of the positions from the source.</returns>
-  [HttpGet]
-  public async Task<List<Position>> GetPositions() => await getService.GetPositions();
+    /// <summary>Gets all of the positions from the source.</summary>
+    /// <returns>All of the positions from the source.</returns>
+    [HttpGet]
+    public async Task<List<Position>> GetPositions() => await getService.GetPositions();
 }

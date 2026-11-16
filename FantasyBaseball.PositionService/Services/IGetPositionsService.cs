@@ -7,7 +7,7 @@ namespace FantasyBaseball.PositionService.Services;
 /// <summary>Service for getting positions.</summary>
 public interface IGetPositionsService
 {
-  /// <summary>Gets the positions from the underlying source.</summary>
-  /// <returns>A list of the positions.</returns>
-  Task<List<Position>> GetPositions();
+    /// <summary>Gets the positions from the underlying source.</summary>
+    /// <returns>A list of the positions.</returns>
+    Task<List<Position>> GetPositions();
 }

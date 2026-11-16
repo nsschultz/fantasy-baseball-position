@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM nschultz/fantasy-baseball-common-backend:1.1.1 AS dev
+FROM --platform=$BUILDPLATFORM nschultz/fantasy-baseball-common-backend:1.1.2 AS dev
 ARG TARGETARCH
 ARG GITHUB_USERNAME
 ARG GITHUB_TOKEN
