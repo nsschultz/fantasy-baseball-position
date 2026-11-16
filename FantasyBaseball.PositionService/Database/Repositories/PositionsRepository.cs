@@ -13,6 +13,7 @@ public class PositionRepository(IPositionContext context) : IPositionRepository
     /// <returns>All of the positions in the database.</returns>
     public async Task<List<PositionEntity>> GetPositions() =>
       await context.Positions
+        .AsSplitQuery()
         .Include(p => p.ChildPositions)
         .Include(p => p.ParentPositions)
         .ToListAsync();
