@@ -104,12 +104,17 @@ Each phase feeds insights into the next, creating a continuous improvement cycle
 
 **Pre-Commit Checks**:
 
-- Run `dotnet format --verify-no-changes` locally
-- Run `dotnet build` to verify compilation
-- Run `dotnet test` to verify all tests pass
-- Verify code coverage remains ≥ 80%
-- Check for secrets/credentials in code
+Automated via `.githooks/pre-commit` (configure with `git config core.hooksPath .githooks`):
+- 🔒 Check for secrets/credentials in code (passwords, tokens, API keys)
+- 🎨 Run `dotnet format --verify-no-changes` to enforce code style
+- 📦 Check file sizes (max 5MB per file to prevent binary bloat)
+- 🔨 Optional: Run `dotnet build` to verify compilation
+- ✅ Optional: Run `dotnet test` to verify all tests pass
+
+Manual verification:
+- Verify code coverage remains ≥ 80% (SonarCloud dashboard)
 - Update README and documentation if API changes
+- Review DEPLOYMENT.md if deployment process changes
 
 **Documentation Updates**:
 

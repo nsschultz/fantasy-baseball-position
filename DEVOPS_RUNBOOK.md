@@ -442,6 +442,46 @@ docker stats fantasy-baseball-position         # Real-time resource usage
 docker inspect <container>                     # Detailed container info
 ```
 
+## Development Setup
+
+### Pre-Commit Hooks
+
+The repository includes pre-commit hooks to enforce code quality standards before commits.
+
+**Installation:**
+
+```bash
+# Automatic (recommended)
+git config core.hooksPath .githooks
+
+# Manual (if needed)
+cp .githooks/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+**What it checks:**
+
+1. **Secrets Detection**: Prevents accidental commit of passwords, tokens, API keys
+2. **Code Formatting**: Runs `dotnet format` to enforce consistent style
+3. **File Size Check**: Prevents large files (> 5MB) from being committed
+4. **Build Check** (optional): Can be enabled to verify build succeeds
+5. **Test Check** (optional): Can be enabled to verify tests pass
+
+**Bypassing the hook** (use with caution):
+
+```bash
+git commit --no-verify
+```
+
+**Enabling optional checks:**
+
+Edit `.githooks/pre-commit` and uncomment the build or test sections if desired:
+
+```bash
+# Uncomment to enable build check (makes commits slower but more reliable)
+# Uncomment to enable test check (ensures quality but increases commit time)
+```
+
 ## Resources and References
 
 - **Project**: https://github.com/nsschultz/fantasy-baseball-position
@@ -449,6 +489,7 @@ docker inspect <container>                     # Detailed container info
 - **SLO/SLA**: [SLO_SLA.md](SLO_SLA.md)
 - **DevOps Agent**: [.github/agents/DevOpsExpert.agent.md](.github/agents/DevOpsExpert.agent.md)
 - **C# Standards**: [.github/agents/CSharpExpert.agent.md](.github/agents/CSharpExpert.agent.md)
+- **Pre-Commit Hooks**: [.githooks/pre-commit](.githooks/pre-commit)
 
 ## Revision History
 

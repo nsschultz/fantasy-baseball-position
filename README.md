@@ -217,6 +217,28 @@ dotnet tool install -g dotnet-coverage
 dotnet-coverage collect -f cobertura -o coverage.cobertura.xml dotnet test
 ```
 
+### Pre-Commit Hooks
+
+This repository includes automated pre-commit hooks to maintain code quality standards:
+
+**Installation:**
+```bash
+# Automatic configuration
+git config core.hooksPath .githooks
+```
+
+**What it validates:**
+- 🔒 **Secrets Detection**: Prevents accidental commit of passwords, tokens, API keys
+- 🎨 **Code Formatting**: Enforces consistent code style via `dotnet format`
+- 📦 **File Size Check**: Prevents large files (> 5MB) from being committed
+- 🔨 **Build Check** (optional): Can be enabled to verify build succeeds
+- ✅ **Test Check** (optional): Can be enabled to verify tests pass
+
+**Bypass hook if needed:**
+```bash
+git commit --no-verify
+```
+
 ### Build Status
 
 - **Compilation**: 0 errors, 0 warnings
