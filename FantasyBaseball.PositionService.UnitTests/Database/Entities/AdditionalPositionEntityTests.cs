@@ -16,4 +16,25 @@ public class AdditionalPositionEntityTests
     Assert.Null(entity.ChildPosition);
     Assert.Null(entity.ParentPosition);
   }
+
+  /// <summary>Verifies that properties can be set after construction.</summary>
+  [Fact]
+  public void CanSetProperties()
+  {
+    var childPosition = new PositionEntity { Code = "1B", FullName = "First Baseman" };
+    var parentPosition = new PositionEntity { Code = "IF", FullName = "Infielder" };
+    
+    var entity = new AdditionalPositionEntity
+    {
+      ChildCode = "1B",
+      ParentCode = "IF",
+      ChildPosition = childPosition,
+      ParentPosition = parentPosition
+    };
+
+    Assert.Equal("1B", entity.ChildCode);
+    Assert.Equal("IF", entity.ParentCode);
+    Assert.Equal(childPosition, entity.ChildPosition);
+    Assert.Equal(parentPosition, entity.ParentPosition);
+  }
 }
