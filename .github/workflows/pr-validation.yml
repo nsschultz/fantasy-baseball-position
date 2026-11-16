@@ -25,6 +25,10 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - name: Configure GitHub package source
+        run: |
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
+
       - name: Restore dependencies
         run: dotnet restore
 
@@ -97,6 +101,10 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+
+      - name: Configure GitHub package source
+        run: |
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
 
       - name: Restore dependencies
         run: dotnet restore
