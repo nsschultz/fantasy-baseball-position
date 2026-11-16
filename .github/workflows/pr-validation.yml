@@ -93,6 +93,10 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - name: Configure GitHub package source
+        run: |
+          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
+
       - name: Check Code Format
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
