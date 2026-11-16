@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FantasyBaseball.PositionService.Database.Repositories;
 
-/// <summary>Service for getting positions.</summary>
+/// <summary>Repository for CRUD functionality regarding positions.</summary>
 /// <param name="context">The position context.</param>
 public class PositionRepository(IPositionContext context) : IPositionRepository
 {

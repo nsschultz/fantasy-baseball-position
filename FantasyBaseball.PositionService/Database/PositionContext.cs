@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FantasyBaseball.PositionService.Database;
 
-/// <summary>The context object for players and their related entities.</summary>
+/// <summary>The context object for positions and their related entities.</summary>
 /// <param name="options">The options for this context.</param>
 public class PositionContext(DbContextOptions<PositionContext> options) : DbContext(options), IPositionContext
 {

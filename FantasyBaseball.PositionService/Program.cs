@@ -14,6 +14,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 
+// Position Service Application Entry Point Configuration
+// This is a read-only ASP.NET Core Web API that serves as the source of truth for position information.
+// The service provides fantasy baseball position data including batter and pitcher positions,
+// position hierarchies, and additional eligible positions for each position type.
+//
+// Configuration Details:
+// - CORS is configured to allow requests from localhost and schultz.local hosts
+// - Database connectivity is required for health checks
+// - AutoMapper is configured for Position entity to DTO mapping
+// - Swagger/OpenAPI documentation is available at /api/swagger/
+
 const string BaseballSpecificOrigins = "_BaseballSpecificOrigins";
 const string SwaggerBasePath = "api";
 const string SwaggerTitle = "FantasyBaseball.PositionService";
