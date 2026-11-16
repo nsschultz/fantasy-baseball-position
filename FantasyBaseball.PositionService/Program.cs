@@ -14,14 +14,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 
-var BaseballSpecificOrigins = "_BaseballSpecificOrigins";
-var SwaggerBasePath = "api";
-var SwaggerTitle = "FantasyBaseball.PositionService";
-var SwaggerVersion = "v1";
+const string BaseballSpecificOrigins = "_BaseballSpecificOrigins";
+const string SwaggerBasePath = "api";
+const string SwaggerTitle = "FantasyBaseball.PositionService";
+const string SwaggerVersion = "v1";
 
 // Build the App Config
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
+
 // Setup Cors
 builder.Services.AddCors(options =>
 {
@@ -29,15 +30,16 @@ builder.Services.AddCors(options =>
     name: BaseballSpecificOrigins,
     policy =>
     {
-      policy.SetIsOriginAllowed(o =>
+      policy.SetIsOriginAllowed(origin =>
       {
-        var host = new Uri(o).Host;
+        var host = new Uri(origin).Host;
         return host == "localhost" || host.Contains("schultz.local");
       });
       policy.AllowAnyHeader();
       policy.AllowAnyMethod();
     });
 });
+
 // Setup Database
 var connectionString = string.Format(
   builder.Configuration.GetConnectionString("PositionDatabase"),
@@ -49,10 +51,13 @@ builder.Services.AddDbContext<PositionContext>(options =>
 {
   options.UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 });
+
 // Setup HealthChecks
 builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
+
 // Setup Automapper
 builder.Services.AddAutoMapper(cfg => { }, typeof(BaseballPositionProfile));
+
 // Setup DI
 builder.Services
   // Config
@@ -63,18 +68,20 @@ builder.Services
   .AddScoped<IPositionRepository, PositionRepository>()
   // Services
   .AddScoped<IGetPositionsService, GetPositionsService>();
+
 // Setup Swagger
-builder.Services.AddSwaggerGen(o =>
+builder.Services.AddSwaggerGen(options =>
 {
-  o.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
+  options.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
   var currentAssembly = Assembly.GetExecutingAssembly();
   currentAssembly.GetReferencedAssemblies()
     .Union([currentAssembly.GetName()])
-    .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{a.Name}.xml"))
-    .Where(f => File.Exists(f))
+    .Select(assembly => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{assembly.Name}.xml"))
+    .Where(filePath => File.Exists(filePath))
     .ToList()
-    .ForEach(f => o.IncludeXmlComments(f));
+    .ForEach(filePath => options.IncludeXmlComments(filePath));
 });
+
 // Setup Controllers
 builder.Services.AddControllers(options => options.Filters.Add<ExceptionFilter>());
 
@@ -91,8 +98,10 @@ app.UseSwaggerUI(c =>
   c.SwaggerEndpoint($"/{SwaggerBasePath}/swagger/{SwaggerVersion}/swagger.json", $"{SwaggerTitle} - {SwaggerVersion}");
   c.RoutePrefix = $"{SwaggerBasePath}/swagger";
 });
+
 // Migrate Database on Startup
 using var scope = app.Services.CreateScope();
 await scope.ServiceProvider.GetRequiredService<PositionContext>().Database.MigrateAsync();
+
 // Start the App
 await app.RunAsync();

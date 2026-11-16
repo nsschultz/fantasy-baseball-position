@@ -7,13 +7,16 @@ using Xunit;
 
 namespace FantasyBaseball.PositionService.UnitTests.Controllers.V1;
 
-public class PositionControllerTest
+/// <summary>Tests for the <see cref="PositionController"/>.</summary>
+public class PositionControllerTests
 {
+  /// <summary>Verifies that GetPositions returns all positions.</summary>
   [Fact]
-  public async Task GetPositionsTest()
+  public async Task GetPositions_ReturnsPositions()
   {
     var getService = new Mock<IGetPositionsService>();
     getService.Setup(o => o.GetPositions()).ReturnsAsync([new Position()]);
-    Assert.NotEmpty(await new PositionController(getService.Object).GetPositions());
+    var result = await new PositionController(getService.Object).GetPositions();
+    Assert.NotEmpty(result);
   }
 }

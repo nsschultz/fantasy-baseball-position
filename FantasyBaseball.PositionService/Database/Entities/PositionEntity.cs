@@ -7,10 +7,10 @@ namespace FantasyBaseball.PositionService.Database.Entities;
 public class PositionEntity
 {
   /// <summary>The position's code.</summary>
-  public string Code { get; set; }
+  public required string Code { get; set; }
 
   /// <summary>The full name of the position.</summary>
-  public string FullName { get; set; }
+  public required string FullName { get; set; }
 
   /// <summary>The type of player (batter or pitcher) that plays this position.</summary>
   public PlayerType PlayerType { get; set; }

@@ -12,9 +12,10 @@ using Xunit;
 
 namespace FantasyBaseball.PositionService.UnitTests.Database.Repositories;
 
-public class PositionRepositoryTest : IAsyncDisposable
+/// <summary>Tests for the <see cref="PositionRepository"/>.</summary>
+public class PositionRepositoryTests : IAsyncDisposable
 {
-  private static readonly Dictionary<string, PositionEntity> ExpectedCollection = new List<PositionEntity>
+  private static readonly Dictionary<string, PositionEntity> ExpectedPositions = new List<PositionEntity>
   {
     new() { Code = ""    , FullName = "Unknown"          , PlayerType = PlayerType.U, SortOrder = int.MaxValue },
     new() { Code = "C"   , FullName = "Catcher"          , PlayerType = PlayerType.B, SortOrder = 0            },
@@ -58,6 +59,7 @@ public class PositionRepositoryTest : IAsyncDisposable
     { "P"   , new [] { "SP", "RP" } }
   }.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Length);
 
+
   private static readonly Dictionary<string, int> ExpectedParentCount = new Dictionary<string, string[]>
   {
     { ""    , Array.Empty<string>() },
@@ -82,23 +84,26 @@ public class PositionRepositoryTest : IAsyncDisposable
 
   private readonly PositionContext _context;
 
-  public PositionRepositoryTest() => _context = CreateContext().Result;
+  public PositionRepositoryTests() => _context = CreateContext().Result;
 
+  /// <summary>Verifies that GetPositions retrieves all positions with relationships loaded.</summary>
   [Fact]
-  public async Task GetPositionsTest()
+  public async Task GetPositions_ReturnsAllPositionsWithRelationships()
   {
-    var positions = await new PositionRepository(_context).GetPositions();
+    var repository = new PositionRepository(_context);
+    var positions = await repository.GetPositions();
+    
     Assert.Equal(18, positions.Count);
-    positions.ForEach(position =>
+    foreach (var position in positions)
     {
-      var expected = ExpectedCollection[position.Code];
+      var expected = ExpectedPositions[position.Code];
       Assert.Equal(expected.Code, position.Code);
       Assert.Equal(expected.FullName, position.FullName);
       Assert.Equal(expected.PlayerType, position.PlayerType);
       Assert.Equal(expected.SortOrder, position.SortOrder);
       Assert.Equal(ExpectedChildCount[position.Code], position.ChildPositions.Count);
       Assert.Equal(ExpectedParentCount[position.Code], position.ParentPositions.Count);
-    });
+    }
   }
 
   public async ValueTask DisposeAsync()

@@ -14,12 +14,13 @@ using Xunit;
 
 namespace FantasyBaseball.PositionService.UnitTests.Services;
 
-public class GetPositionServiceTest
+/// <summary>Tests for the <see cref="GetPositionsService"/>.</summary>
+public class GetPositionsServiceTests
 {
-  private static readonly List<PositionEntity> POSITIONS =
+  private static readonly List<PositionEntity> TestPositions =
   [
     new() { Code = "C"   , FullName = "Catcher"          , PlayerType = PlayerType.B, SortOrder = 0            },
-    new() { Code = "CF"  , FullName = "Center Feilder"   , PlayerType = PlayerType.B, SortOrder = 9            },
+    new() { Code = "CF"  , FullName = "Center Fielder"   , PlayerType = PlayerType.B, SortOrder = 9            },
     new() { Code = "CIF" , FullName = "Corner Infielder" , PlayerType = PlayerType.B, SortOrder = 5            },
     new() { Code = "DH"  , FullName = "Designated Hitter", PlayerType = PlayerType.B, SortOrder = 12           },
     new() { Code = "1B"  , FullName = "First Baseman"    , PlayerType = PlayerType.B, SortOrder = 1            },
@@ -37,20 +38,26 @@ public class GetPositionServiceTest
     new() { Code = ""    , FullName = "Unknown"          , PlayerType = PlayerType.U, SortOrder = int.MaxValue },
     new() { Code = "UTIL", FullName = "Utility"          , PlayerType = PlayerType.B, SortOrder = 13           }
   ];
-  private static readonly List<string> SORTED_CODES =
+
+  private static readonly List<string> SortedCodes =
   [
     "C", "1B", "2B", "3B", "SS", "CIF", "MIF", "IF", "LF", "CF", "RF", "OF", "DH", "UTIL", "SP", "RP", "P", ""
   ];
 
+  /// <summary>Verifies that GetPositions returns all positions sorted by SortOrder.</summary>
   [Fact]
-  public async Task GetPositionsTest()
+  public async Task GetPositions_ReturnsSortedPositions()
   {
     var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
     var positionRepo = new Mock<IPositionRepository>();
-    positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(POSITIONS);
+    positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(TestPositions);
     var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
+    
     Assert.Equal(18, positions.Count);
-    for (int x = 0; x < 18; x++) ValidatePosition(POSITIONS.First(p => p.Code == SORTED_CODES[x]), positions[x]);
+    for (int x = 0; x < 18; x++)
+    {
+      ValidatePosition(TestPositions.First(p => p.Code == SortedCodes[x]), positions[x]);
+    }
   }
 
   private static void ValidatePosition(PositionEntity expected, Position actual)
