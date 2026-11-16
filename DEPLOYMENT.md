@@ -6,6 +6,18 @@ This document provides comprehensive procedures for deploying the Fantasy Baseba
 
 The Position Service uses a containerized deployment model with Docker and Docker Compose. Releases follow semantic versioning and are automated via GitHub Actions.
 
+## Continuous Integration
+
+Before any code reaches main, it must pass PR validation checks via `.github/workflows/pr-validation.yml`:
+
+**Automated Checks on Pull Requests**:
+- **Build & Test**: Compiles code and runs 25+ unit and integration tests
+- **SonarCloud Quality Gate**: Verifies code quality metrics and coverage ≥ 80%
+- **Code Format**: Ensures consistent code style via `dotnet format`
+- **Security Scan**: Scans with Trivy for vulnerabilities (SARIF format)
+
+All PR validation jobs must pass before a PR can be merged to main.
+
 ## Release Process
 
 ### Step 1: Prepare Release

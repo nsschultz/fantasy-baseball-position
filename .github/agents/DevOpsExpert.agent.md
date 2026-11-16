@@ -147,43 +147,60 @@ Manual verification:
 
 **Build Pipeline**:
 
-The Position Service uses GitHub Actions for automated builds:
+The Position Service uses GitHub Actions for automated builds and validations:
+
+**PR Validation Workflow** (`.github/workflows/pr-validation.yml`):
+
+Runs automatically on every pull request (opened, synchronize, reopened):
+1. **Build and Test**: Compile code and run unit/integration tests
+2. **SonarCloud Quality Gate**: Analyze code quality and coverage
+3. **Code Format Check**: Verify consistent code formatting
+4. **Security Scan**: Scan with Trivy for vulnerabilities
+
+**Release Build Workflow** (`.github/workflows/docker-image.yml`):
+
+Runs on merge to main branch:
+1. **Docker Build**: Compile and package multi-platform images (amd64, arm64)
+2. **Docker Push**: Push versioned images to Docker Hub
+3. **Tag**: Apply semantic version tag from version.txt
 
 **Key Build Steps**:
 
 1. **Checkout**: Clone repository at commit
 2. **Setup .NET**: Install .NET 10 SDK
 3. **Restore**: `dotnet restore` - restore dependencies
-4. **Build**: `dotnet build` - compile code
+4. **Build**: `dotnet build --configuration Release` - compile code
 5. **Test**: `dotnet test` - run unit and integration tests
-6. **SonarCloud**: Analyze code quality and coverage
+6. **SonarCloud**: Analyze code quality and coverage via `.docker-compose/ci.sh`
 7. **Docker Build**: Build multi-platform images (amd64, arm64)
-8. **Security Scan**: Scan images with Trivy
+8. **Security Scan**: Scan with Trivy for filesystem vulnerabilities
 
 **Build Triggers**:
 
-- **Pull Requests**: Run build and tests on every PR
-- **Merge to main**: Full pipeline + create release candidate
-- **Tag creation**: Build and push versioned image to Docker Hub
+- **Pull Requests**: PR Validation workflow runs build, tests, format check, security scan
+- **Merge to main**: Docker image built and pushed to Docker Hub
+- **Tag creation**: Correlates with Docker image version
 
 **Build Artifacts**:
 
 - Docker images: `docker.io/nschultz/fantasy-baseball-position:<version>`
+- Test results: Published in PR checks
 - SonarCloud results: Code quality metrics and coverage
+- Trivy scan results: Security vulnerabilities in SARIF format
 
 **Build Optimization**:
 
 - Use Docker BuildKit for faster builds
 - Cache dependencies between builds
-- Parallelize unit and integration tests
+- Parallelize jobs in PR validation
 - Use multi-stage Docker builds for smaller images
 
 **Build Failure Handling**:
 
-- Immediate notification for build failures
-- Automated retry for transient failures
-- Security scan failures block Docker push
-- Coverage drops below 80% block merge
+- PR validation failure blocks merge (status check required)
+- Coverage drops below 80% fails SonarCloud quality gate
+- Security scan failures are reported (non-blocking)
+- Code format issues fail the format check step
 
 **Questions to Ask**:
 
@@ -192,12 +209,14 @@ The Position Service uses GitHub Actions for automated builds:
 - Is code coverage maintained at ≥ 80%?
 - Do security scans show any vulnerabilities?
 - Are all tests passing?
+- Is code formatting consistent?
 
 **Key Files**:
 
-- `.github/workflows/docker-image.yml` - Docker build and push
-- `.github/workflows/sonar-scan.yml` - Code quality scanning
+- `.github/workflows/pr-validation.yml` - PR validation (build, test, format, security)
+- `.github/workflows/docker-image.yml` - Release build and Docker push
 - `Dockerfile` - Multi-stage Docker build
+- `.docker-compose/ci.sh` - SonarCloud scanning and build script
 - `FantasyBaseball.PositionService.csproj` - Build configuration
 
 ## Phase 4: Test

@@ -435,11 +435,13 @@ Describe how you tested this change:
 
 ### Review Process
 
-1. **GitHub Actions** runs automated checks:
-   - Build and compile
-   - Run all tests
-   - SonarCloud quality gates
-   - Security scanning
+1. **GitHub Actions PR Validation** (`.github/workflows/pr-validation.yml`) runs automatically:
+   - **Build & Test**: Compiles code and runs 25+ unit and integration tests
+   - **SonarCloud Quality Gate**: Verifies code quality and coverage ≥ 80%
+   - **Code Format**: Ensures consistent style via `dotnet format`
+   - **Security Scan**: Scans with Trivy for vulnerabilities
+   
+   All checks must pass before the PR can be merged.
 
 2. **Code Review**:
    - Minimum one approval required

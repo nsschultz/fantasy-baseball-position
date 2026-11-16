@@ -245,6 +245,22 @@ git commit --no-verify
 - **Tests**: All passing (16 unit + 9 integration = 25 total)
 - **Security**: No known vulnerabilities
 
+### CI/CD Workflows
+
+This project uses GitHub Actions for automated quality assurance:
+
+**PR Validation** (`.github/workflows/pr-validation.yml`):
+- Triggers on every pull request (opened, synchronize, reopened)
+- **Build & Test**: Compiles code and runs test suite with result reporting
+- **SonarCloud Quality Gate**: Verifies code quality metrics and coverage ≥ 80%
+- **Code Format**: Ensures consistent code style via `dotnet format`
+- **Security Scan**: Scans with Trivy for vulnerabilities
+
+**Release Build** (`.github/workflows/docker-image.yml`):
+- Triggers on merge to main branch
+- Builds multi-platform Docker images (amd64, arm64)
+- Pushes versioned images to Docker Hub
+
 ---
 
 ## C# Best Practices
