@@ -22,7 +22,7 @@ jobs:
         env:
           POSTGRES_DB: position_database
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_PASSWORD: ${{ github.run_id }}-${{ github.run_attempt }}
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -40,10 +40,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-
-      - name: Configure GitHub package source
-        run: |
-          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
+          source-url: https://nuget.pkg.github.com/nsschultz/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
         run: dotnet restore
@@ -56,7 +55,7 @@ jobs:
           POSITION_DATABASE_HOST: localhost
           POSITION_DATABASE: position_database
           POSITION_DATABASE_USER: postgres
-          POSITION_DATABASE_PASSWORD: postgres
+          POSITION_DATABASE_PASSWORD: ${{ github.run_id }}-${{ github.run_attempt }}
         run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
 
       - name: Upload Test Results
@@ -111,10 +110,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-
-      - name: Configure GitHub package source
-        run: |
-          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
+          source-url: https://nuget.pkg.github.com/nsschultz/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check Code Format
         run: dotnet format --verify-no-changes --verbosity diagnostic
@@ -133,10 +131,9 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-
-      - name: Configure GitHub package source
-        run: |
-          dotnet nuget add source --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/nsschultz/index.json"
+          source-url: https://nuget.pkg.github.com/nsschultz/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
         run: dotnet restore
