@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
   security-events: write
 
 jobs:
@@ -13,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      packages: read
       security-events: write
     steps:
       - name: Checkout
@@ -39,7 +41,7 @@ jobs:
           tags: nschultz/fantasy-baseball-position:${{ env.VERSION }}
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            GITHUB_USERNAME="nsschultz"
+            GITHUB_USERNAME=nsschultz
 
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@38b337fff0a2f984d5be173c99e3f633438167ec
