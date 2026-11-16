@@ -1,0 +1,33 @@
+# This file defines code ownership and review requirements for the Fantasy Baseball Position Service
+# See https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for all files in the repository
+* @nsschultz
+
+# DevOps and Infrastructure
+.github/ @nsschultz
+.docker-compose/ @nsschultz
+Dockerfile @nsschultz
+docker-compose.yml @nsschultz
+version.txt @nsschultz
+
+# Documentation
+*.md @nsschultz
+DEPLOYMENT.md @nsschultz
+DEVOPS_RUNBOOK.md @nsschultz
+SLO_SLA.md @nsschultz
+
+# Project configuration
+*.csproj @nsschultz
+.github/agents/ @nsschultz
+.githooks/ @nsschultz
+
+# Application code
+FantasyBaseball.PositionService/ @nsschultz
+
+# Tests
+FantasyBaseball.PositionService.UnitTests/ @nsschultz
+FantasyBaseball.PositionService.IntegrationTests/ @nsschultz
+
+# Database
+FantasyBaseball.PositionService/Database/ @nsschultz
