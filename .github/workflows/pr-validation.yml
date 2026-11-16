@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   build-and-test:
@@ -13,6 +14,7 @@ jobs:
       checks: write
       contents: read
       pull-requests: write
+      packages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,6 +55,9 @@ jobs:
           check_name: "Test Results"
 
   sonar-quality-gate:
+    permissions:
+      contents: read
+      packages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -75,6 +80,9 @@ jobs:
           sh .docker-compose/ci.sh
 
   code-format:
+    permissions:
+      contents: read
+      packages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -92,6 +100,7 @@ jobs:
     permissions:
       security-events: write
       contents: read
+      packages: read
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
