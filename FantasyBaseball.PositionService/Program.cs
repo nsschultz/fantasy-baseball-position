@@ -37,18 +37,18 @@ builder.Configuration.AddEnvironmentVariables();
 // Setup Cors
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy(
-    name: BaseballSpecificOrigins,
-    policy =>
-    {
-      policy.SetIsOriginAllowed(origin =>
+    options.AddPolicy(
+      name: BaseballSpecificOrigins,
+      policy =>
       {
-        var host = new Uri(origin).Host;
-        return host == "localhost" || host.Contains("schultz.local");
+          policy.SetIsOriginAllowed(origin =>
+        {
+            var host = new Uri(origin).Host;
+            return host == "localhost" || host.Contains("schultz.local");
+        });
+          policy.AllowAnyHeader();
+          policy.AllowAnyMethod();
       });
-      policy.AllowAnyHeader();
-      policy.AllowAnyMethod();
-    });
 });
 
 // Setup Database
@@ -60,11 +60,13 @@ var connectionString = string.Format(
   builder.Configuration["POSITION_DATABASE_PASSWORD"]);
 builder.Services.AddDbContext<PositionContext>(options =>
 {
-  options.UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
+    options.UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 });
 
 // Setup HealthChecks
-builder.Services.AddHealthChecks().AddDbContextCheck<PositionContext>();
+builder.Services
+  .AddHealthChecks()
+  .AddDbContextCheck<PositionContext>();
 
 // Setup Automapper
 builder.Services.AddAutoMapper(cfg => { }, typeof(BaseballPositionProfile));
@@ -83,14 +85,14 @@ builder.Services
 // Setup Swagger
 builder.Services.AddSwaggerGen(options =>
 {
-  options.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
-  var currentAssembly = Assembly.GetExecutingAssembly();
-  currentAssembly.GetReferencedAssemblies()
-    .Union([currentAssembly.GetName()])
-    .Select(assembly => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{assembly.Name}.xml"))
-    .Where(filePath => File.Exists(filePath))
-    .ToList()
-    .ForEach(filePath => options.IncludeXmlComments(filePath));
+    options.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
+    var currentAssembly = Assembly.GetExecutingAssembly();
+    currentAssembly.GetReferencedAssemblies()
+      .Union([currentAssembly.GetName()])
+      .Select(assembly => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{assembly.Name}.xml"))
+      .Where(filePath => File.Exists(filePath))
+      .ToList()
+      .ForEach(filePath => options.IncludeXmlComments(filePath));
 });
 
 // Setup Controllers
@@ -102,12 +104,31 @@ app.UseCors(BaseballSpecificOrigins);
 app.UseHsts();
 app.UseRouting();
 app.MapControllers();
+
+// Health check endpoints for observability
+// /api/health - Combined health status (used by both Kubernetes and monitoring)
+// Includes database connectivity and service readiness
 app.MapHealthChecks("/api/health", new HealthCheckOptions { AllowCachingResponses = false });
+
+// /api/health/live - Liveness probe (is service running?)
+// This should return 200 if the service process is alive
+app.MapHealthChecks("/api/health/live", new HealthCheckOptions
+{
+    AllowCachingResponses = false,
+    Predicate = _ => false  // No detailed health checks, just process-level check
+});
+
+// /api/health/ready - Readiness probe (is service ready for traffic?)
+// This returns 200 only if all dependencies (database) are healthy
+app.MapHealthChecks("/api/health/ready", new HealthCheckOptions
+{
+    AllowCachingResponses = false
+});
 app.UseSwagger(c => c.RouteTemplate = SwaggerBasePath + "/swagger/{documentName}/swagger.json");
 app.UseSwaggerUI(c =>
 {
-  c.SwaggerEndpoint($"/{SwaggerBasePath}/swagger/{SwaggerVersion}/swagger.json", $"{SwaggerTitle} - {SwaggerVersion}");
-  c.RoutePrefix = $"{SwaggerBasePath}/swagger";
+    c.SwaggerEndpoint($"/{SwaggerBasePath}/swagger/{SwaggerVersion}/swagger.json", $"{SwaggerTitle} - {SwaggerVersion}");
+    c.RoutePrefix = $"{SwaggerBasePath}/swagger";
 });
 
 // Migrate Database on Startup

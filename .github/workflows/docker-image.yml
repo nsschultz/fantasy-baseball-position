@@ -33,3 +33,18 @@ jobs:
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             GITHUB_USERNAME="nsschultz"
+
+      - name: Run Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@38b337fff0a2f984d5be173c99e3f633438167ec
+        with:
+          image-ref: nschultz/fantasy-baseball-position:${{ env.VERSION }}
+          format: "sarif"
+          output: "trivy-results.sarif"
+
+      - name: Upload Trivy Results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: "trivy-results.sarif"
+          category: "trivy-image-scan"
+
