@@ -16,6 +16,20 @@ jobs:
       pull-requests: write
       packages: read
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: position_database
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,6 +52,11 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Run Tests
+        env:
+          POSITION_DATABASE_HOST: localhost
+          POSITION_DATABASE: position_database
+          POSITION_DATABASE_USER: postgres
+          POSITION_DATABASE_PASSWORD: postgres
         run: dotnet test --configuration Release --no-restore --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
 
       - name: Upload Test Results
