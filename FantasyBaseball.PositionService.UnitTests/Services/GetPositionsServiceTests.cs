@@ -18,9 +18,9 @@ namespace FantasyBaseball.PositionService.UnitTests.Services;
 /// <summary>Tests for the <see cref="GetPositionsService"/>.</summary>
 public class GetPositionsServiceTests
 {
-  private static readonly List<PositionEntity> TestPositions =
-  [
-    new() { Code = "C"   , FullName = "Catcher"          , PlayerType = PlayerType.B, SortOrder = 0            },
+    private static readonly List<PositionEntity> TestPositions =
+    [
+      new() { Code = "C"   , FullName = "Catcher"          , PlayerType = PlayerType.B, SortOrder = 0            },
     new() { Code = "CF"  , FullName = "Center Fielder"   , PlayerType = PlayerType.B, SortOrder = 9            },
     new() { Code = "CIF" , FullName = "Corner Infielder" , PlayerType = PlayerType.B, SortOrder = 5            },
     new() { Code = "DH"  , FullName = "Designated Hitter", PlayerType = PlayerType.B, SortOrder = 12           },
@@ -38,104 +38,104 @@ public class GetPositionsServiceTests
     new() { Code = "3B"  , FullName = "Third Baseman"    , PlayerType = PlayerType.B, SortOrder = 3            },
     new() { Code = ""    , FullName = "Unknown"          , PlayerType = PlayerType.U, SortOrder = int.MaxValue },
     new() { Code = "UTIL", FullName = "Utility"          , PlayerType = PlayerType.B, SortOrder = 13           }
-  ];
+    ];
 
-  private static readonly List<string> SortedCodes =
-  [
-    "C", "1B", "2B", "3B", "SS", "CIF", "MIF", "IF", "LF", "CF", "RF", "OF", "DH", "UTIL", "SP", "RP", "P", ""
-  ];
+    private static readonly List<string> SortedCodes =
+    [
+      "C", "1B", "2B", "3B", "SS", "CIF", "MIF", "IF", "LF", "CF", "RF", "OF", "DH", "UTIL", "SP", "RP", "P", ""
+    ];
 
-  /// <summary>Verifies that GetPositions returns all positions sorted by SortOrder.</summary>
-  [Fact]
-  public async Task GetPositions_ReturnsSortedPositions()
-  {
-    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
-    var positionRepo = new Mock<IPositionRepository>();
-    positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(TestPositions);
-    var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
-    
-    Assert.Equal(18, positions.Count);
-    for (int x = 0; x < 18; x++)
+    /// <summary>Verifies that GetPositions returns all positions sorted by SortOrder.</summary>
+    [Fact]
+    public async Task GetPositions_ReturnsSortedPositions()
     {
-      ValidatePosition(TestPositions.First(p => p.Code == SortedCodes[x]), positions[x]);
+        var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
+        var positionRepo = new Mock<IPositionRepository>();
+        positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(TestPositions);
+        var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
+
+        Assert.Equal(18, positions.Count);
+        for (int x = 0; x < 18; x++)
+        {
+            ValidatePosition(TestPositions.First(p => p.Code == SortedCodes[x]), positions[x]);
+        }
     }
-  }
 
-  /// <summary>Verifies that GetPositions returns empty collection when repository returns empty list.</summary>
-  [Fact]
-  public async Task GetPositions_WithEmptyRepository_ReturnsEmptyList()
-  {
-    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
-    var positionRepo = new Mock<IPositionRepository>();
-    positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(new List<PositionEntity>());
-    
-    var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
-    
-    Assert.Empty(positions);
-  }
+    /// <summary>Verifies that GetPositions returns empty collection when repository returns empty list.</summary>
+    [Fact]
+    public async Task GetPositions_WithEmptyRepository_ReturnsEmptyList()
+    {
+        var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
+        var positionRepo = new Mock<IPositionRepository>();
+        positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(new List<PositionEntity>());
 
-  /// <summary>Verifies that GetPositions properly sorts when positions have duplicate SortOrder values.</summary>
-  [Fact]
-  public async Task GetPositions_WithDuplicateSortOrder_SortsCorrectly()
-  {
-    var testData = new List<PositionEntity>
+        var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
+
+        Assert.Empty(positions);
+    }
+
+    /// <summary>Verifies that GetPositions properly sorts when positions have duplicate SortOrder values.</summary>
+    [Fact]
+    public async Task GetPositions_WithDuplicateSortOrder_SortsCorrectly()
+    {
+        var testData = new List<PositionEntity>
     {
       new() { Code = "P1", FullName = "Position 1", PlayerType = PlayerType.B, SortOrder = 5 },
       new() { Code = "P2", FullName = "Position 2", PlayerType = PlayerType.B, SortOrder = 3 },
       new() { Code = "P3", FullName = "Position 3", PlayerType = PlayerType.B, SortOrder = 5 }
     };
 
-    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
-    var positionRepo = new Mock<IPositionRepository>();
-    positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(testData);
-    
-    var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
-    
-    Assert.Equal(3, positions.Count);
-    Assert.Equal(3, positions[0].SortOrder);
-    Assert.True(positions[1].SortOrder == 5);
-    Assert.True(positions[2].SortOrder == 5);
-  }
+        var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
+        var positionRepo = new Mock<IPositionRepository>();
+        positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(testData);
 
-  /// <summary>Verifies that GetPositions handles negative SortOrder values.</summary>
-  [Fact]
-  public async Task GetPositions_WithNegativeSortOrder_SortsCorrectly()
-  {
-    var testData = new List<PositionEntity>
+        var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
+
+        Assert.Equal(3, positions.Count);
+        Assert.Equal(3, positions[0].SortOrder);
+        Assert.True(positions[1].SortOrder == 5);
+        Assert.True(positions[2].SortOrder == 5);
+    }
+
+    /// <summary>Verifies that GetPositions handles negative SortOrder values.</summary>
+    [Fact]
+    public async Task GetPositions_WithNegativeSortOrder_SortsCorrectly()
+    {
+        var testData = new List<PositionEntity>
     {
       new() { Code = "P1", FullName = "Position 1", PlayerType = PlayerType.B, SortOrder = 5 },
       new() { Code = "P2", FullName = "Position 2", PlayerType = PlayerType.B, SortOrder = -1 }
     };
 
-    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
-    var positionRepo = new Mock<IPositionRepository>();
-    positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(testData);
-    
-    var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
-    
-    Assert.Equal(2, positions.Count);
-    Assert.Equal(-1, positions[0].SortOrder);
-    Assert.Equal(5, positions[1].SortOrder);
-  }
+        var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
+        var positionRepo = new Mock<IPositionRepository>();
+        positionRepo.Setup(o => o.GetPositions()).ReturnsAsync(testData);
 
-  /// <summary>Verifies that repository exceptions are propagated.</summary>
-  [Fact]
-  public async Task GetPositions_WhenRepositoryThrows_PropagatesException()
-  {
-    var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
-    var positionRepo = new Mock<IPositionRepository>();
-    positionRepo.Setup(o => o.GetPositions()).ThrowsAsync(new InvalidOperationException("Database error"));
-    
-    var service = new GetPositionsService(mapper, positionRepo.Object);
-    
-    await Assert.ThrowsAsync<InvalidOperationException>(async () => await service.GetPositions());
-  }
+        var positions = await new GetPositionsService(mapper, positionRepo.Object).GetPositions();
 
-  private static void ValidatePosition(PositionEntity expected, Position actual)
-  {
-    Assert.Equal(expected.Code, actual.Code);
-    Assert.Equal(expected.FullName, actual.FullName);
-    Assert.Equal(expected.PlayerType, actual.PlayerType);
-    Assert.Equal(expected.SortOrder, actual.SortOrder);
-  }
+        Assert.Equal(2, positions.Count);
+        Assert.Equal(-1, positions[0].SortOrder);
+        Assert.Equal(5, positions[1].SortOrder);
+    }
+
+    /// <summary>Verifies that repository exceptions are propagated.</summary>
+    [Fact]
+    public async Task GetPositions_WhenRepositoryThrows_PropagatesException()
+    {
+        var mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
+        var positionRepo = new Mock<IPositionRepository>();
+        positionRepo.Setup(o => o.GetPositions()).ThrowsAsync(new InvalidOperationException("Database error"));
+
+        var service = new GetPositionsService(mapper, positionRepo.Object);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(async () => await service.GetPositions());
+    }
+
+    private static void ValidatePosition(PositionEntity expected, Position actual)
+    {
+        Assert.Equal(expected.Code, actual.Code);
+        Assert.Equal(expected.FullName, actual.FullName);
+        Assert.Equal(expected.PlayerType, actual.PlayerType);
+        Assert.Equal(expected.SortOrder, actual.SortOrder);
+    }
 }

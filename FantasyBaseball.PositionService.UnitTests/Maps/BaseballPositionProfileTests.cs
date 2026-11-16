@@ -13,16 +13,16 @@ namespace FantasyBaseball.PositionService.UnitTests.Maps;
 /// <summary>Tests for the <see cref="BaseballPositionProfile"/> AutoMapper profile.</summary>
 public class BaseballPositionProfileTests
 {
-  private static readonly PositionEntity FirstBaseman = new() { Code = "1B", FullName = "First Baseman", PlayerType = PlayerType.B, SortOrder = 1 };
-  private static readonly PositionEntity CornerInfielder = new() { Code = "CIF", FullName = "Corner Infielder", PlayerType = PlayerType.B, SortOrder = 5 };
-  private static readonly PositionEntity Infielder = new() { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 };
-  private static readonly PositionEntity Utility = new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 };
-  
-  private static readonly List<PositionEntity> DatabasePositions = [FirstBaseman, CornerInfielder, Infielder, Utility];
-  
-  private static readonly List<Position> ExpectedMappings =
-  [
-    new() {
+    private static readonly PositionEntity FirstBaseman = new() { Code = "1B", FullName = "First Baseman", PlayerType = PlayerType.B, SortOrder = 1 };
+    private static readonly PositionEntity CornerInfielder = new() { Code = "CIF", FullName = "Corner Infielder", PlayerType = PlayerType.B, SortOrder = 5 };
+    private static readonly PositionEntity Infielder = new() { Code = "IF", FullName = "Infielder", PlayerType = PlayerType.B, SortOrder = 7 };
+    private static readonly PositionEntity Utility = new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 };
+
+    private static readonly List<PositionEntity> DatabasePositions = [FirstBaseman, CornerInfielder, Infielder, Utility];
+
+    private static readonly List<Position> ExpectedMappings =
+    [
+      new() {
       Code = "1B",
       FullName = "First Baseman",
       PlayerType = PlayerType.B,
@@ -58,63 +58,63 @@ public class BaseballPositionProfileTests
       ]
     },
     new() { Code = "UTIL", FullName = "Utility", PlayerType = PlayerType.B, SortOrder = 13 }
-  ];
-  
-  private readonly IMapper _mapper;
+    ];
 
-  public BaseballPositionProfileTests() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
+    private readonly IMapper _mapper;
 
-  /// <summary>Verifies that mapping a null PositionEntity returns null.</summary>
-  [Fact]
-  public void MapNull_ReturnsNull()
-  {
-    var result = _mapper.Map<Position>(null);
-    Assert.Null(result);
-  }
+    public BaseballPositionProfileTests() => _mapper = new MapperConfiguration(cfg => cfg.AddProfile(new BaseballPositionProfile()), new LoggerFactory()).CreateMapper();
 
-  /// <summary>Verifies that PositionEntity instances are correctly mapped to Position objects with relationships.</summary>
-  [Fact]
-  public void MapPosition_MapsCorrectlyWithRelationships()
-  {
-    SetupRelationships(FirstBaseman, CornerInfielder);
-    SetupRelationships(FirstBaseman, Infielder);
-    SetupRelationships(FirstBaseman, Utility);
-    SetupRelationships(CornerInfielder, Infielder);
-    SetupRelationships(CornerInfielder, Utility);
-    SetupRelationships(Infielder, Utility);
-    
-    foreach (var expected in ExpectedMappings)
+    /// <summary>Verifies that mapping a null PositionEntity returns null.</summary>
+    [Fact]
+    public void MapNull_ReturnsNull()
     {
-      var source = DatabasePositions.First(p => p.Code == expected.Code);
-      var actual = _mapper.Map<Position>(source);
-      ValidateMapping(expected, actual);
+        var result = _mapper.Map<Position>(null);
+        Assert.Null(result);
     }
-  }
 
-  private static void SetupRelationships(PositionEntity parent, PositionEntity child)
-  {
-    var relationship = new AdditionalPositionEntity 
-    { 
-      ParentCode = parent.Code, 
-      ChildCode = child.Code, 
-      ParentPosition = parent, 
-      ChildPosition = child 
-    };
-    parent.ParentPositions.Add(relationship);
-    child.ChildPositions.Add(relationship);
-  }
-
-  private static void ValidateMapping(Position expected, Position actual)
-  {
-    Assert.Equal(expected.Code, actual.Code);
-    Assert.Equal(expected.FullName, actual.FullName);
-    Assert.Equal(expected.PlayerType, actual.PlayerType);
-    Assert.Equal(expected.SortOrder, actual.SortOrder);
-    Assert.Equal(expected.AdditionalPositions.Count, actual.AdditionalPositions.Count);
-    
-    foreach (var expectedAdditional in expected.AdditionalPositions)
+    /// <summary>Verifies that PositionEntity instances are correctly mapped to Position objects with relationships.</summary>
+    [Fact]
+    public void MapPosition_MapsCorrectlyWithRelationships()
     {
-      ValidateMapping(expectedAdditional, actual.AdditionalPositions.First(p => p.Code == expectedAdditional.Code));
+        SetupRelationships(FirstBaseman, CornerInfielder);
+        SetupRelationships(FirstBaseman, Infielder);
+        SetupRelationships(FirstBaseman, Utility);
+        SetupRelationships(CornerInfielder, Infielder);
+        SetupRelationships(CornerInfielder, Utility);
+        SetupRelationships(Infielder, Utility);
+
+        foreach (var expected in ExpectedMappings)
+        {
+            var source = DatabasePositions.First(p => p.Code == expected.Code);
+            var actual = _mapper.Map<Position>(source);
+            ValidateMapping(expected, actual);
+        }
     }
-  }
+
+    private static void SetupRelationships(PositionEntity parent, PositionEntity child)
+    {
+        var relationship = new AdditionalPositionEntity
+        {
+            ParentCode = parent.Code,
+            ChildCode = child.Code,
+            ParentPosition = parent,
+            ChildPosition = child
+        };
+        parent.ParentPositions.Add(relationship);
+        child.ChildPositions.Add(relationship);
+    }
+
+    private static void ValidateMapping(Position expected, Position actual)
+    {
+        Assert.Equal(expected.Code, actual.Code);
+        Assert.Equal(expected.FullName, actual.FullName);
+        Assert.Equal(expected.PlayerType, actual.PlayerType);
+        Assert.Equal(expected.SortOrder, actual.SortOrder);
+        Assert.Equal(expected.AdditionalPositions.Count, actual.AdditionalPositions.Count);
+
+        foreach (var expectedAdditional in expected.AdditionalPositions)
+        {
+            ValidateMapping(expectedAdditional, actual.AdditionalPositions.First(p => p.Code == expectedAdditional.Code));
+        }
+    }
 }

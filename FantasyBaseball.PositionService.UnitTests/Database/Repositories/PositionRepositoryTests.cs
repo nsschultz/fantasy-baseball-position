@@ -15,7 +15,7 @@ namespace FantasyBaseball.PositionService.UnitTests.Database.Repositories;
 /// <summary>Tests for the <see cref="PositionRepository"/>.</summary>
 public class PositionRepositoryTests : IAsyncDisposable
 {
-  private static readonly Dictionary<string, PositionEntity> ExpectedPositions = new List<PositionEntity>
+    private static readonly Dictionary<string, PositionEntity> ExpectedPositions = new List<PositionEntity>
   {
     new() { Code = ""    , FullName = "Unknown"          , PlayerType = PlayerType.U, SortOrder = int.MaxValue },
     new() { Code = "C"   , FullName = "Catcher"          , PlayerType = PlayerType.B, SortOrder = 0            },
@@ -37,7 +37,7 @@ public class PositionRepositoryTests : IAsyncDisposable
     new() { Code = "P"   , FullName = "Pitcher"          , PlayerType = PlayerType.P, SortOrder = 102          }
   }.ToDictionary(p => p.Code, p => p);
 
-  private static readonly Dictionary<string, int> ExpectedChildCount = new Dictionary<string, string[]>
+    private static readonly Dictionary<string, int> ExpectedChildCount = new Dictionary<string, string[]>
   {
     { ""    , Array.Empty<string>() },
     { "C"   , Array.Empty<string>() },
@@ -60,7 +60,7 @@ public class PositionRepositoryTests : IAsyncDisposable
   }.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Length);
 
 
-  private static readonly Dictionary<string, int> ExpectedParentCount = new Dictionary<string, string[]>
+    private static readonly Dictionary<string, int> ExpectedParentCount = new Dictionary<string, string[]>
   {
     { ""    , Array.Empty<string>() },
     { "C"   , new [] { "UTIL" } },
@@ -82,52 +82,52 @@ public class PositionRepositoryTests : IAsyncDisposable
     { "P"   , Array.Empty<string>() }
   }.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Length);
 
-  private readonly PositionContext _context;
+    private readonly PositionContext _context;
 
-  public PositionRepositoryTests() => _context = CreateContext().Result;
+    public PositionRepositoryTests() => _context = CreateContext().Result;
 
-  /// <summary>Verifies that GetPositions retrieves all positions with relationships loaded.</summary>
-  [Fact]
-  public async Task GetPositions_ReturnsAllPositionsWithRelationships()
-  {
-    var repository = new PositionRepository(_context);
-    var positions = await repository.GetPositions();
-    
-    Assert.Equal(18, positions.Count);
-    foreach (var position in positions)
+    /// <summary>Verifies that GetPositions retrieves all positions with relationships loaded.</summary>
+    [Fact]
+    public async Task GetPositions_ReturnsAllPositionsWithRelationships()
     {
-      var expected = ExpectedPositions[position.Code];
-      Assert.Equal(expected.Code, position.Code);
-      Assert.Equal(expected.FullName, position.FullName);
-      Assert.Equal(expected.PlayerType, position.PlayerType);
-      Assert.Equal(expected.SortOrder, position.SortOrder);
-      Assert.Equal(ExpectedChildCount[position.Code], position.ChildPositions.Count);
-      Assert.Equal(ExpectedParentCount[position.Code], position.ParentPositions.Count);
+        var repository = new PositionRepository(_context);
+        var positions = await repository.GetPositions();
+
+        Assert.Equal(18, positions.Count);
+        foreach (var position in positions)
+        {
+            var expected = ExpectedPositions[position.Code];
+            Assert.Equal(expected.Code, position.Code);
+            Assert.Equal(expected.FullName, position.FullName);
+            Assert.Equal(expected.PlayerType, position.PlayerType);
+            Assert.Equal(expected.SortOrder, position.SortOrder);
+            Assert.Equal(ExpectedChildCount[position.Code], position.ChildPositions.Count);
+            Assert.Equal(ExpectedParentCount[position.Code], position.ParentPositions.Count);
+        }
     }
-  }
 
-  public async ValueTask DisposeAsync()
-  {
-    await Dispose(true);
-  }
+    public async ValueTask DisposeAsync()
+    {
+        await Dispose(true);
+    }
 
-  protected virtual async Task Dispose(bool disposing)
-  {
-    if (!disposing) return;
-    await _context.Database.EnsureDeletedAsync();
-    await _context.DisposeAsync();
-  }
+    protected virtual async Task Dispose(bool disposing)
+    {
+        if (!disposing) return;
+        await _context.Database.EnsureDeletedAsync();
+        await _context.DisposeAsync();
+    }
 
-  private static async Task<PositionContext> CreateContext()
-  {
-    var options = new DbContextOptionsBuilder<PositionContext>()
-      .UseInMemoryDatabase(databaseName: "GetPositionsTest")
-      .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-      .Options;
-    var context = new PositionContext(options);
-    await context.Database.EnsureCreatedAsync();
-    Assert.Equal(18, await context.Positions.CountAsync());
-    Assert.Equal(28, await context.AdditionalPositions.CountAsync());
-    return context;
-  }
+    private static async Task<PositionContext> CreateContext()
+    {
+        var options = new DbContextOptionsBuilder<PositionContext>()
+          .UseInMemoryDatabase(databaseName: "GetPositionsTest")
+          .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+          .Options;
+        var context = new PositionContext(options);
+        await context.Database.EnsureCreatedAsync();
+        Assert.Equal(18, await context.Positions.CountAsync());
+        Assert.Equal(28, await context.AdditionalPositions.CountAsync());
+        return context;
+    }
 }

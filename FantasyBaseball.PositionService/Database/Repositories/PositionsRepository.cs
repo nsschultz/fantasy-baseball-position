@@ -9,11 +9,11 @@ namespace FantasyBaseball.PositionService.Database.Repositories;
 /// <param name="context">The position context.</param>
 public class PositionRepository(IPositionContext context) : IPositionRepository
 {
-  /// <summary>Gets all of the positions in the database.</summary>
-  /// <returns>All of the positions in the database.</returns>
-  public async Task<List<PositionEntity>> GetPositions() =>
-    await context.Positions
-      .Include(p => p.ChildPositions)
-      .Include(p => p.ParentPositions)
-      .ToListAsync();
+    /// <summary>Gets all of the positions in the database.</summary>
+    /// <returns>All of the positions in the database.</returns>
+    public async Task<List<PositionEntity>> GetPositions() =>
+      await context.Positions
+        .Include(p => p.ChildPositions)
+        .Include(p => p.ParentPositions)
+        .ToListAsync();
 }

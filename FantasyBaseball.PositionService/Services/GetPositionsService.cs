@@ -13,13 +13,13 @@ namespace FantasyBaseball.PositionService.Services;
 /// <param name="positionRepo">Repo for CRUD functionality regarding to positions.</param>
 public class GetPositionsService(IMapper mapper, IPositionRepository positionRepo) : IGetPositionsService
 {
-  /// <summary>Gets the positions from the underlying source.</summary>
-  /// <returns>A list of the positions.</returns>
-  public async Task<List<Position>> GetPositions()
-  {
-    var positions = await positionRepo.GetPositions();
-    return [.. positions
+    /// <summary>Gets the positions from the underlying source.</summary>
+    /// <returns>A list of the positions.</returns>
+    public async Task<List<Position>> GetPositions()
+    {
+        var positions = await positionRepo.GetPositions();
+        return [.. positions
       .Select(mapper.Map<PositionEntity, Position>)
       .OrderBy(p => p.SortOrder)];
-  }
+    }
 }
