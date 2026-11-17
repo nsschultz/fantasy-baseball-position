@@ -4,10 +4,10 @@ using FantasyBaseball.PositionService.Database.Entities;
 
 namespace FantasyBaseball.PositionService.Database.Repositories;
 
-/// <summary>Repo for CRUD functionality regarding to positions.</summary>
+/// <summary>Repository for CRUD functionality for positions.</summary>
 public interface IPositionRepository
 {
-    /// <summary>Gets all of the positions in the database.</summary>
-    /// <returns>All of the positions in the database.</returns>
+    /// <summary>Gets all positions from the database with their relationships loaded.</summary>
+    /// <returns>A list of all positions including child and parent position relationships.</returns>
     Task<List<PositionEntity>> GetPositions();
 }

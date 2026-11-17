@@ -8,18 +8,18 @@ using FantasyBaseball.PositionService.Database.Repositories;
 
 namespace FantasyBaseball.PositionService.Services;
 
-/// <summary>Service for getting positions.</summary>
-/// <param name="mapper">Instance of the auto mapper.</param>
-/// <param name="positionRepo">Repo for CRUD functionality regarding to positions.</param>
+/// <summary>Service for retrieving position data.</summary>
+/// <param name="mapper">AutoMapper instance for mapping entities to domain models.</param>
+/// <param name="positionRepo">Repository for accessing position data from the database.</param>
 public class GetPositionsService(IMapper mapper, IPositionRepository positionRepo) : IGetPositionsService
 {
-    /// <summary>Gets the positions from the underlying source.</summary>
-    /// <returns>A list of the positions.</returns>
+    /// <summary>Gets all positions from the underlying data source, sorted by sort order.</summary>
+    /// <returns>A list of all positions, sorted by sort order.</returns>
     public async Task<List<Position>> GetPositions()
     {
         var positions = await positionRepo.GetPositions();
         return [.. positions
-      .Select(mapper.Map<PositionEntity, Position>)
-      .OrderBy(p => p.SortOrder)];
+            .Select(mapper.Map<PositionEntity, Position>)
+            .OrderBy(p => p.SortOrder)];
     }
 }

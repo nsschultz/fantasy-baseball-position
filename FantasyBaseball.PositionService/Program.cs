@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,96 +35,97 @@ const string SwaggerVersion = "v1";
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 
-// Setup Cors
+// Setup CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
-      name: BaseballSpecificOrigins,
-      policy =>
-      {
-          policy.SetIsOriginAllowed(origin =>
+        name: BaseballSpecificOrigins,
+        policy =>
         {
-            var host = new Uri(origin).Host;
-            return host == "localhost" || host.Contains("schultz.local");
+            policy.SetIsOriginAllowed(origin =>
+            {
+                var host = new Uri(origin).Host;
+                return host == "localhost" || host.Contains("schultz.local");
+            });
+            policy.AllowAnyHeader();
+            policy.AllowAnyMethod();
         });
-          policy.AllowAnyHeader();
-          policy.AllowAnyMethod();
-      });
 });
 
 // Setup Database
 var connectionString = string.Format(
-  builder.Configuration.GetConnectionString("PositionDatabase"),
-  builder.Configuration["POSITION_DATABASE_HOST"],
-  builder.Configuration["POSITION_DATABASE"],
-  builder.Configuration["POSITION_DATABASE_USER"],
-  builder.Configuration["POSITION_DATABASE_PASSWORD"]);
+    builder.Configuration.GetConnectionString("PositionDatabase"),
+    builder.Configuration["POSITION_DATABASE_HOST"],
+    builder.Configuration["POSITION_DATABASE"],
+    builder.Configuration["POSITION_DATABASE_USER"],
+    builder.Configuration["POSITION_DATABASE_PASSWORD"]);
 builder.Services.AddDbContext<PositionContext>(options =>
 {
     options.UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
 });
 
-// Setup HealthChecks
+// Setup Health Checks
 builder.Services
-  .AddHealthChecks()
-  .AddDbContextCheck<PositionContext>();
+    .AddHealthChecks()
+    .AddDbContextCheck<PositionContext>();
 
-// Setup Automapper
+// Setup AutoMapper
 builder.Services.AddAutoMapper(cfg => { }, typeof(BaseballPositionProfile));
 
-// Setup DI
+// Setup Dependency Injection
 builder.Services
-  // Config
-  .AddSingleton(builder.Configuration)
-  // Context
-  .AddScoped<IPositionContext>(provider => provider.GetService<PositionContext>())
-  // Repos
-  .AddScoped<IPositionRepository, PositionRepository>()
-  // Services
-  .AddScoped<IGetPositionsService, GetPositionsService>();
+    // Configuration
+    .AddSingleton(builder.Configuration)
+    // Database Context
+    .AddScoped<IPositionContext>(provider => provider.GetService<PositionContext>())
+    // Repositories
+    .AddScoped<IPositionRepository, PositionRepository>()
+    // Services
+    .AddScoped<IGetPositionsService, GetPositionsService>();
 
-// Setup Swagger
+// Setup Swagger/OpenAPI
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc(SwaggerVersion, new OpenApiInfo { Title = SwaggerTitle, Version = SwaggerVersion });
     var currentAssembly = Assembly.GetExecutingAssembly();
     currentAssembly.GetReferencedAssemblies()
-      .Union([currentAssembly.GetName()])
-      .Select(assembly => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{assembly.Name}.xml"))
-      .Where(filePath => File.Exists(filePath))
-      .ToList()
-      .ForEach(filePath => options.IncludeXmlComments(filePath));
+        .Union([currentAssembly.GetName()])
+        .Select(assembly => Path.Combine(Path.GetDirectoryName(currentAssembly.Location), $"{assembly.Name}.xml"))
+        .Where(filePath => File.Exists(filePath))
+        .ToList()
+        .ForEach(filePath => options.IncludeXmlComments(filePath));
 });
 
 // Setup Controllers
 builder.Services.AddControllers(options => options.Filters.Add<ExceptionFilter>());
 
-// Build the App
+// Build the Application
 var app = builder.Build();
 app.UseCors(BaseballSpecificOrigins);
 app.UseHsts();
 app.UseRouting();
 app.MapControllers();
 
-// Health check endpoints for observability
-// /api/health - Combined health status (used by both Kubernetes and monitoring)
-// Includes database connectivity and service readiness
+// Health check endpoints for observability and container orchestration
+// /api/health - Combined health status (used by both Kubernetes and monitoring systems)
+// Includes database connectivity and service readiness checks
 app.MapHealthChecks("/api/health", new HealthCheckOptions { AllowCachingResponses = false });
 
-// /api/health/live - Liveness probe (is service running?)
-// This should return 200 if the service process is alive
+// /api/health/live - Liveness probe (is the service running?)
+// Returns 200 if the service process is alive, without detailed dependency checks
 app.MapHealthChecks("/api/health/live", new HealthCheckOptions
 {
     AllowCachingResponses = false,
-    Predicate = _ => false  // No detailed health checks, just process-level check
+    Predicate = _ => false
 });
 
-// /api/health/ready - Readiness probe (is service ready for traffic?)
-// This returns 200 only if all dependencies (database) are healthy
+// /api/health/ready - Readiness probe (is the service ready to handle traffic?)
+// Returns 200 only if all critical dependencies (database) are healthy
 app.MapHealthChecks("/api/health/ready", new HealthCheckOptions
 {
     AllowCachingResponses = false
 });
+
 app.UseSwagger(c => c.RouteTemplate = SwaggerBasePath + "/swagger/{documentName}/swagger.json");
 app.UseSwaggerUI(c =>
 {
@@ -131,9 +133,9 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = $"{SwaggerBasePath}/swagger";
 });
 
-// Migrate Database on Startup
+// Apply database migrations on startup
 using var scope = app.Services.CreateScope();
 await scope.ServiceProvider.GetRequiredService<PositionContext>().Database.MigrateAsync();
 
-// Start the App
+// Start the application
 await app.RunAsync();
