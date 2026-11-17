@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FantasyBaseball.PositionService.Database.Repositories;
 
-/// <summary>Repository for CRUD functionality regarding positions.</summary>
-/// <param name="context">The position context.</param>
+/// <summary>Repository for position data access operations.</summary>
+/// <param name="context">The EF Core database context for positions.</param>
 public class PositionRepository(IPositionContext context) : IPositionRepository
 {
-    /// <summary>Gets all of the positions in the database.</summary>
-    /// <returns>All of the positions in the database.</returns>
+    /// <summary>Gets all positions from the database with their relationships eager-loaded.</summary>
+    /// <returns>A list of all positions including child and parent position relationships.</returns>
     public async Task<List<PositionEntity>> GetPositions() =>
-      await context.Positions
-        .AsSplitQuery()
-        .Include(p => p.ChildPositions)
-        .Include(p => p.ParentPositions)
-        .ToListAsync();
+        await context.Positions
+            .AsSplitQuery()
+            .Include(p => p.ChildPositions)
+            .Include(p => p.ParentPositions)
+            .ToListAsync();
 }
