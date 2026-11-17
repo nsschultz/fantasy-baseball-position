@@ -2,7 +2,9 @@ name: Build and Publish Image
 
 on:
   push:
-    branches: [main]
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -38,7 +40,9 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: nschultz/fantasy-baseball-position:${{ env.VERSION }}
+          tags: |
+            nschultz/fantasy-baseball-position:${{ env.VERSION }}
+            nschultz/fantasy-baseball-position:latest
           build-args: |
             GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
             GITHUB_USERNAME=nsschultz
