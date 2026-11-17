@@ -257,9 +257,9 @@ This project uses GitHub Actions for automated quality assurance:
 - **Security Scan**: Scans with Trivy for vulnerabilities
 
 **Release Build** (`.github/workflows/docker-image.yml`):
-- Triggers on merge to main branch
+- Triggers on version tags matching `v*.*.*`
 - Builds multi-platform Docker images (amd64, arm64)
-- Pushes versioned images to Docker Hub
+- Pushes both versioned and `latest` images to Docker Hub
 
 ---
 

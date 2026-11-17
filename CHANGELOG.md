@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Corrected documentation terminology (Context, Repository classes)
+- Fixed Docker release workflow to trigger on version tags and publish the `latest` image tag
 
 ## [1.2.3] - 2026-11-16
 
